@@ -63,7 +63,7 @@ HISTSIZE=10104096
 
 EDITOR=nvim
 
-. ~/theme
+. ~/.config/theme
 . ~/themes/fzf_themes/$theme
 
 # fzf: tab = complete, ctrl-r = history (both piped through fzf)

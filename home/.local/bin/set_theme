@@ -1,6 +1,6 @@
 #!/bin/dash
 
-. ~/theme
+. ~/.config/theme
 
 new_theme=$1
 
@@ -105,6 +105,6 @@ esac
 
 # # -------------------------------------- shell config ----------------------------------
 
-update_theme ~/theme
+update_theme ~/.config/theme
 
 exec mksh
