@@ -1,6 +1,6 @@
 #!/bin/dash
 
-. ~/dotfiles/theme
+. ~/theme
 
 new_theme=$1
 
@@ -9,7 +9,7 @@ if [ -z "$new_theme" ] || { [ "$theme" = "$new_theme" ] && [ -z "$2" ]; }; then
 fi
 
 update_theme() {
-  sed -i "s/$theme/$new_theme/" "$1"
+  sed -i --follow-symlinks "s/$theme/$new_theme/" "$1"
 }
 
 # -------------------------------------- eww  ----------------------------------
@@ -26,8 +26,8 @@ update_theme ~/.config/gtk-3.0/settings.ini
 
 # -------------------------------- st & xresources  ----------------------------------
 
-update_theme ~/dotfiles/.Xresources
-xrdb merge ~/dotfiles/.Xresources
+update_theme ~/.Xresources
+xrdb merge ~/.Xresources
 
 win_ids=$(xprop -root _NET_CLIENT_LIST | cut -d'#' -f2)
 
@@ -105,6 +105,6 @@ esac
 
 # # -------------------------------------- shell config ----------------------------------
 
-update_theme ~/dotfiles/theme
+update_theme ~/theme
 
 exec mksh
