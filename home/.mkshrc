@@ -64,7 +64,7 @@ HISTSIZE=10104096
 EDITOR=nvim
 
 . ~/.config/theme
-. ~/themes/fzf_themes/$theme
+. ~/.config/themes/fzf_themes/$theme
 
 # fzf: tab = complete, ctrl-r = history (both piped through fzf)
 # evaluate-region (^[^E) runs the typed function and drops its stdout on the line
