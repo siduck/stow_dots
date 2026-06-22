@@ -4,3 +4,6 @@ home/.config/chadwm/chadwm/dwm
 
 # eww runtime cache (regenerated at runtime)
 home/.config/eww/cache/
+
+# stray Claude Code config
+.claude/
