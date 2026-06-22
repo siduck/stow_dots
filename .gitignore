@@ -1,0 +1,6 @@
+# chadwm build artifacts (recompiled on the target machine)
+home/.config/chadwm/chadwm/*.o
+home/.config/chadwm/chadwm/dwm
+
+# eww runtime cache (regenerated at runtime)
+home/.config/eww/cache/

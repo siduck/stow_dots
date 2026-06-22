@@ -1,0 +1,37 @@
+! Tundra Color Theme
+
+*.foreground:   #F3F4F6
+*.background:   #111827
+*.cursorColor:  #DDD6FE
+
+! Black
+*.color0:       #1A2130
+*.color8:       #3e4554
+
+! Red
+*.color1:       #FCA5A5
+*.color9:       #FCA5A5
+
+! Green
+*.color2:       #B5E8B0
+*.color10:      #B5E8B0
+
+! Yellow
+*.color3:       #E8D4B0
+*.color11:      #E8D4B0
+
+! Blue
+*.color4:       #BAE6FD
+*.color12:      #BAE6FD
+
+! Magenta
+*.color5:       #DDD6FE
+*.color13:      #DDD6FE
+
+! Cyan
+*.color6:       #BAE6FD
+*.color14:      #BAE6FD
+
+! White
+*.color7:       #D1D5DB
+*.color15:      #E5E7EB

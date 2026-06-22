@@ -1,0 +1,11 @@
+if [ -f "$HOME/.profile" ]; then
+    . "$HOME/.profile"
+fi
+
+#xrandr --output DisplayPort-2 --mode 2560x1440 --rate 74.78 &
+set_theme tundra startup &
+~/.config/eww/scripts/start.sh  &
+picom &
+xsettingsd &
+pipewire & wireplumber & pipewire-pulse & 
+xset r rate 200 80 &

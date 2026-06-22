@@ -1,0 +1,12 @@
+$fg: #D1D5DB;
+$bg: #111827;
+$bg-2: lighten($color: $bg, $amount: 4);
+$bg-3: lighten($color: $bg, $amount: 8);
+$bg-4: lighten($color: $bg, $amount: 12);
+$gray: lighten($color: $bg, $amount: 24);
+
+$blue: #BAE6FD;
+$green: #B5E8B0;
+$red: #FCA5A5;
+$yellow: #E8D4B0;
+$orange: #FBC19D;

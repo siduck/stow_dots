@@ -1,0 +1,1 @@
+ffmpeg -f x11grab -framerate 75 -i $DISPLAY -c:v h264_nvenc -probesize 42M -b:v 30M -pix_fmt yuv444p -r 75 $(date +%H%M%S).mp4

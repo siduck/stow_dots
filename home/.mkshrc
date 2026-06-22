@@ -1,0 +1,140 @@
+color() {
+  case $1 in
+  black) code=30 ;; red) code=31 ;; green) code=32 ;; yellow) code=33 ;;
+  blue) code=34 ;; purple) code=35 ;; cyan) code=36 ;; white) code=37 ;;
+  bg_black) code=40 ;; bg_red) code=41 ;; bg_green) code=42 ;; bg_yellow) code=43 ;;
+  bg_blue) code=44 ;; bg_purple) code=45 ;; bg_cyan) code=46 ;; bg_white) code=47 ;;
+  *) code=0 ;; # Default to none
+  esac
+
+  echo -e "\e[${code}m"
+}
+
+set_prompt() {
+  icon='$(color bg_blue)$(color black) 󰀘 '
+  cwd='$(color bg_black)$(color white) ${PWD/#"$HOME"/\~}'
+  PS1="$icon $cwd $(color) "
+}
+
+set_prompt
+
+# PS1=$'\E[106m\E[30m 󰀘  \E[39m\E[40m'' ${PWD/#"$HOME"/\~} '$'\E[0m '
+
+# Prompt
+
+export PATH=$PATH:~/.local/bin
+export PATH=$PATH:~/.bun/bin
+#alias v=~/.local/share/bob/nightly/nvim-linux64/bin/nvim
+
+alias zz='slock & doas zzz'
+alias del='doas rm -r'
+alias gl='git clone'
+
+# logo-ls
+alias ls='eza --icons'
+alias wa='feh --bg-fill'
+
+# sx
+alias dwm='sx sh ~/.config/chadwm/scripts/run.sh'
+alias op='sx sh /bin/openbox-session'
+alias flu='sx sh ~/.fluxbox/startup'
+alias ice='sx sh ~/.icewm/startup' 
+
+nv() {
+  [ -n "$1" ] && [ -d "$1" ] && cd "$1" && shift
+  nvim +'lua require("nvim-tree.api").tree.open()' "$@"
+}
+
+alias rec='ffmpeg -framerate 75 -f x11grab -i $DISPLAY -pix_fmt yuv420p vid.mp4'
+
+# alias rec_high='ffmpeg -framerate 75 -f x11grab -i $DISPLAY -c:v libx264rgb -crf 0 -preset ultrafast -color_range 2 vid.mp4'
+alias rec_high='ffmpeg -f x11grab -framerate 75 -i $DISPLAY -vaapi_device /dev/dri/renderD128 -vf "format=nv12,hwupload" -c:v h264_vaapi -qp 24 -color_range 2 vid.mp4'
+
+
+# alias rec="ffmpeg -f x11grab -framerate 60 -i $DISPLAY -c:v h264_nvenc -b:v 8M -pix_fmt yuv420p vid.mp4"
+# alias rec_high='ffmpeg -f x11grab -framerate 75 -i $DISPLAY -c:v h264_nvenc -probesize 42M -b:v 30M -pix_fmt yuv444p -r 75 $1'
+
+bind ^[a=beginning-of-line
+bind ^[e=end-of-line
+bind ^L=clear-screen
+
+HISTFILE=$HOME/.mksh_history
+HISTSIZE=10104096
+
+EDITOR=nvim
+
+. ~/dotfiles/theme
+. ~/dotfiles/themes/fzf_themes/$theme
+
+# fzf: tab = complete, ctrl-r = history (both piped through fzf)
+# evaluate-region (^[^E) runs the typed function and drops its stdout on the line
+__fzf_history() {
+  fc -l -r 1 2>/dev/null | awk -F'	' '!s[$2]++' \
+    | fzf --no-sort --height '~40%' --nth=2.. --tabstop=6 \
+    | sed 's/^ *[0-9]*	//; s/[ 	]*$//'
+}
+
+__fzf_complete() {
+  typeset stub sel prefix cmd d f IFS i_dir i_file i_cmd
+  i_dir=''; i_file=''; i_cmd=''
+  # last arg carries a glued __FZFEOL__ sentinel so a trailing space is detectable
+  if [ "$#" -gt 0 ]; then eval "stub=\${$#}"; stub="${stub%__FZFEOL__}"; fi
+  while [ "$#" -gt 1 ]; do prefix="$prefix$1 "; shift; done
+  if [ -z "$prefix" ] && [[ "$stub" != */* ]]; then
+    # first word, no slash -> complete commands (aliases, functions, $PATH)
+    IFS=:
+    sel=$( { alias | sed 's/=.*//'
+             typeset +f | grep -v '^__fzf'
+             for d in $PATH; do
+               for f in "$d"/"$stub"*; do
+                 [ -x "$f" ] && [ ! -d "$f" ] && print -r -- "${f##*/}"
+               done
+             done
+           } 2>/dev/null | grep "^$stub" | LC_ALL=C sort -u \
+           | sed "s/^/$i_cmd /" | fzf -1 -0 --height '~40%' )
+  else
+    # everything else -> file/path glob (dir-only for cd/pushd/rmdir)
+    cmd="${prefix%% *}"
+    typeset -a m mm
+    set -A mm -- "$stub"* "$stub".*
+    for f in "${mm[@]}"; do
+      [ -e "$f" ] || continue                  # drop unmatched glob literals
+      case "$f" in */.|*/..|.|..) continue ;; esac   # drop . and ..
+      m[${#m[@]}]="$f"
+    done
+    [ "${#m[@]}" -eq 0 ] && { print -nr -- "$prefix$stub"; return; }
+    sel=$(for f in "${m[@]}"; do
+            if [ -d "$f" ]; then print -r -- "$i_dir $f"
+            else case "$cmd" in cd|pushd|popd|rmdir) ;; *) print -r -- "$i_file $f" ;; esac
+            fi
+          done | fzf -1 -0 --height '~40%')
+  fi
+  [ -z "$sel" ] && { print -nr -- "$prefix$stub"; return; }
+  sel="${sel#* }"                 # strip leading icon + space
+  [ -d "$sel" ] && sel="$sel/"
+  print -nr -- "$prefix$sel"
+}
+bind -m '^R'='^A^K__fzf_history^[^E'
+bind -m '^I'='^A__fzf_complete ^E__FZFEOL__^[^E'
+
+alias apps="echo && pacman -Slq | fzf --multi  --preview-window=right,60%  --preview 'pacman -Si {1}' | xargs -ro doas pacman -S"
+
+alias ti='NVIM_APPNAME="ti" nvim'
+alias tiny='NVIM_APPNAME="tiny" nvim'
+alias repro='NVIM_APPNAME="repro" nvim'
+alias astro='NVIM_APPNAME="astro" nvim'
+alias lazy='NVIM_APPNAME="lazy" nvim'
+alias vi='NVIM_APPNAME="vi" nvim'
+alias vii='NVIM_APPNAME="vii" nvim'
+alias kick='NVIM_APPNAME="kick" nvim'
+
+alias onefetch='echo && onefetch'
+alias ch='git cherry-pick'
+alias gc='git commit -m'
+alias gp='git pull'
+alias gs='git push'
+alias gr='git rebase'
+
+lu() {
+  lutgen apply $1 -p tundra -L0.5 --preserve
+}

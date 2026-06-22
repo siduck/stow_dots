@@ -1,0 +1,16 @@
+(include 'src/left.yuck')
+(include 'src/middle.yuck')
+(include 'src/right.yuck')
+
+(defwindow dock
+           :geometry (geometry :x "0%"
+                               :y "-0.5%"
+                               :width "90%"
+                               :anchor "bottom center")
+           :reserve (struts :distance "65px" :side "bottom")
+           :windowtype "dock"
+           :wm-ignore false
+  (centerbox  :class "zuup"
+    (left)
+    (middle)
+    (right)))

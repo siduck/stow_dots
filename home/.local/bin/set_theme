@@ -1,0 +1,110 @@
+#!/bin/dash
+
+. ~/dotfiles/theme
+
+new_theme=$1
+
+if [ -z "$new_theme" ] || { [ "$theme" = "$new_theme" ] && [ -z "$2" ]; }; then
+  exit
+fi
+
+update_theme() {
+  sed -i "s/$theme/$new_theme/" "$1"
+}
+
+# -------------------------------------- eww  ----------------------------------
+
+update_theme ~/.config/eww/eww.scss
+update_theme ~/.config/chadwm/eww/eww.scss
+
+# -------------------------------------- gtk theme  ----------------------------------
+
+update_theme ~/.config/xsettingsd/xsettingsd.conf
+killall -HUP xsettingsd &
+update_theme ~/.gtkrc-2.0
+update_theme ~/.config/gtk-3.0/settings.ini
+
+# -------------------------------- st & xresources  ----------------------------------
+
+update_theme ~/dotfiles/.Xresources
+xrdb merge ~/dotfiles/.Xresources
+
+win_ids=$(xprop -root _NET_CLIENT_LIST | cut -d'#' -f2)
+
+for id in $win_ids; do
+  wm_class=$(xprop -id "$id" WM_CLASS)
+  wm_name=$(xprop -id "$id" WM_NAME)
+
+  if [ "$wm_class" = 'WM_CLASS(STRING) = "st", "St"' ]; then
+
+    pid=$(xprop -id "$id" | grep -i pid | cut -d'=' -f2 | tr -d ' ')
+
+    kill -USR1 "$pid"
+  fi
+done
+
+update_theme ~/.config/nvim/lua/chadrc.lua
+
+# for nvim that's opened
+if [ -e "$XDG_RUNTIME_DIR"/nvim.* ]; then
+    for addr in "$XDG_RUNTIME_DIR"/nvim.*; do
+        nvim --server "$addr" --remote-send ':lua require("nvchad.utils").reload() <cr>'
+    done
+fi
+
+
+# when no nvim is opened at all
+nvim --headless +'lua require("nvchad.utils").reload()' +qa
+
+# -------------------------------------- rofi  ----------------------------------
+
+update_theme ~/.config/rofi/config.rasi
+update_theme ~/.config/eww/rofi/menu.rasi
+
+# ------------------------------ set wwallpaper ----------------------------------
+
+walldir="/home/$USER/Pictures/walls/"
+wallfile=""
+
+case "$1" in
+bearded-arc) wallfile="mountain.png" ;;
+everforest) wallfile="stairs.jpg" ;;
+gruvchad) wallfile="railtrack.jpg" ;;
+onenord) wallfile="snow-mountain.jpg" ;;
+one_light) wallfile="beach.jpg" ;;
+tundra) wallfile="hills.png" ;;
+esac
+
+feh --bg-fill "$walldir$wallfile"
+
+# # -------------------------------------- openbox ----------------------------------
+
+wm_name=$(wmctrl -m | awk -F': ' '/Name/ {print $2}')
+
+case "$wm_name" in
+  Openbox)
+    update_theme ~/.config/openbox/rc.xml
+    openbox --reconfigure
+    ;;
+
+  Fluxbox)
+    update_theme ~/.fluxbox/init
+    fluxbox-remote restart
+    ;;
+
+  dwm)
+    update_theme ~/.config/chadwm/scripts/bar.sh
+    killall bar.sh && ~/.config/chadwm/scripts/bar.sh &
+    update_theme ~/.config/chadwm/chadwm/config.def.h
+		rm -rf ~/.config/chadwm/chadwm/config.h
+		cd ~/.config/chadwm/chadwm/ 
+   	doas make install &
+    ;;
+esac
+
+
+# # -------------------------------------- shell config ----------------------------------
+
+update_theme ~/dotfiles/theme
+
+exec mksh

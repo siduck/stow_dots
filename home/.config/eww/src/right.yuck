@@ -1,0 +1,63 @@
+(defvar volume_slider true)
+
+(defwidget powerBtn []  
+  (button :onclick "slock & loginctl suspend &" :class "powerBtn"  ''))
+
+(defwidget temperature []
+   (box :class "cuteIcon tempIcon" :space-evenly false
+     (label :text  "")
+     (label :class "txt" :text "${round(EWW_TEMPS.K10TEMP_TCTL, 0)}°C")))
+
+(defwidget battery []
+   (box :class "cuteIcon tempIcon" :space-evenly false
+     (label :text  "")
+     (label :class "txt" :text "${round(EWW_BATTERY.total_avg, 0)}%")))
+
+(defwidget ram []
+ (box :class "cuteIcon ramIcon" :space-evenly false
+  (label :text  "")
+  (label :class "txt" :text "${round((EWW_RAM.used_mem/EWW_RAM.total_mem) * 100, 0 )}%")))
+   
+(defwidget cpu []
+   (box :class "cuteIcon cpuIcon" :space-evenly false
+     (label :text  "")
+     (label :class "txt" :text "${round(EWW_CPU.avg,0)}%")))          
+
+(defwidget wifi []
+ (box :class "wifiIcon" "${EWW_NET.wlan0 == 'null'? '󰤭' : '󰤨'}"))
+
+(defpoll pkgupdates :initial "  0" :interval "1000s" "scripts/utils.sh get_pkgupdates")
+
+(defwidget pkgupdate_counter []
+  (box :class "txt pkgupdates" "${pkgupdates}"))
+
+(defwidget theme_switcher [] 
+  (button :onclick "scripts/utils.sh run_theme_switcher &" :class "theme_switcher" "󱥚"))
+
+
+(defwidget volume_slider []
+  (box :space-evenly false  :class 'volume-slider'
+      (button :onclick "scripts/utils.sh toggle_volume" :class "theme_switcher" "")
+      (revealer :reveal "${volume_slider}" :transition "slideright"
+         (scale
+          :orientation "h"
+          :min 0
+          :max 100
+          :value 50
+          :round-digits 0
+          :value-pos "right"
+          :onchange "pactl set-sink-volume @DEFAULT_SINK@ {}%"))))
+
+(defwidget right []
+  (box :halign "end" :space-evenly false :class "right modal"
+    :spacing 9
+    (pkgupdate_counter)
+    (theme_switcher)
+    (temperature)
+    (battery)
+    (ram)
+    (cpu)
+    (volume_slider)
+    (wifi)
+    (powerBtn)
+  (systray  :icon-size 24 :spacing 3  :prepend-new true :orientation "h"  :class "tray"))) 

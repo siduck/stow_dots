@@ -1,0 +1,20 @@
+(include "src/modules/dock.yuck")
+
+(defwidget distroIcon []  
+  (button :halign "start" :onclick "eww -c ~/.config/chadwm/eww open eww &" :class "distroIcon"  ''))
+
+(defvar active_workspace 1)
+
+(defwidget workspaces []
+  (box :class "workspaces" :spacing 10
+   (for x in '[0,1,2]' 
+      (button :onclick "scripts/utils.sh set_workspace ${x}" 
+        :class "${active_workspace == x ? "" : "in"}active_ws" 
+        {active_workspace == x ? "󰻂" : ""}))))
+    
+(defwidget left []
+  (box :space-evenly false
+    (distroIcon)
+    (workspaces)
+    (taskbar)))
+    

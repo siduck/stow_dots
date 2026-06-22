@@ -1,0 +1,8 @@
+export FZF_DEFAULT_OPTS='
+  --color fg:#646a76,bg:#171b23
+  --color bg+:#E06C75,fg+:#2c2f30,hl:#D8DEE9,hl+:#26292a,gutter:#3a404c
+  --color pointer:#373d49,prompt:#61afef,info:#606672,spinner:#98C379
+  --border --color border:#171b23,preview-border:#1e222a,preview-bg:#1e222a,preview-fg:#abb2bf
+  --height 15'
+
+
