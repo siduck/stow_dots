@@ -16,4 +16,4 @@ st.alpha: 1.0
 
 Xcursor.theme: material_light_cursors
 
-#include "./.config/themes/xresources/everforest"
+#include "./.config/themes/xresources/gruvchad"

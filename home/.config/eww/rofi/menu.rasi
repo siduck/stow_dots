@@ -1,4 +1,4 @@
-@import "everforest"
+@import "gruvchad"
 
 configuration {
   location: 1;
