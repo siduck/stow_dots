@@ -2,14 +2,15 @@
 local M = {}
 
 M.base46 = {
-  theme = "one_light",
+  theme = "scaryforest",
   transparency = false,
   integrations = { "markview", "navic" },
-  hl_override = {
-    ["@comment"] = { italic = true },
-    Function = { italic = true },
-    ["@function.call"] = { italic = true, fg = "red" },
-  },
+  -- hl_override = {
+  --   ["@comment"] = { italic = true },
+  --   Function = { italic = true },
+  --   ["@function.call"] = { italic = true, fg = "red" },
+  -- },
+
 }
 
 M.ui = {

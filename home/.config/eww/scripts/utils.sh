@@ -226,8 +226,9 @@ set_workspace() {
 }
 
 get_pkgupdates() {
-	updates=$(checkupdates | wc -l) # arch
-	echo " $updates"
+	# updates=$(checkupdates | wc -l) # arch
+	updates=$(doas xbps-install -un 2>/dev/null | wc -l) # void
+	echo "  $updates"
 }
 
 # resolves a .desktop Icon= value to a real file: try Papirus, then the

@@ -1,10 +1,10 @@
-@import "gruvchad"
+@import "scaryforest"
 
 configuration {
   location: 1;
   me-select-entry: "MousePrimary";
   me-accept-entry: "!MousePrimary";
-  font: "Noto Sans Nerd Font 11";
+  font: "SF Pro Text 11";
 }
 
 window {

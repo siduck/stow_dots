@@ -41,7 +41,7 @@ static const int new_window_attach_on_end = 0; /*  1 means the new window will a
 static const char *fonts[]          = {"Iosevka:style:medium:size=12" ,"JetBrainsMono Nerd Font Mono:style:medium:size=19" };
 
 // theme
-#include "themes/everforest.h"
+#include "./themes/everblush.h"
 
 static const char *colors[][3]      = {
     /*                     fg       bg      border */

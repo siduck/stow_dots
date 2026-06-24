@@ -40,7 +40,7 @@
                   'Active' - where the active window is -->
   </placement>
   <theme>
-    <name>tundra</name>
+    <name>scaryforest</name>
     <titleLayout>NLIMC</titleLayout>
     <!--
       available characters are NDSLIMC, each can occur at most once.
@@ -153,7 +153,7 @@
      cases. -->
   <margins>
     <top>10</top>
-    <bottom>0</bottom>
+    <bottom>64</bottom>
     <left>10</left>
     <right>10</right>
   </margins>
@@ -227,12 +227,12 @@
     </keybind>
     <keybind key="XF86MonBrightnessUp">
       <action name="Execute">
-        <command>xbacklight -inc 20</command>
+        <command>light -A 10</command>
       </action>
     </keybind>
     <keybind key="XF86MonBrightnessDown">
       <action name="Execute">
-        <command>xbacklight -dec 20</command>
+        <command>light -U 10</command>
       </action>
     </keybind>
     <keybind key="W-S-f">

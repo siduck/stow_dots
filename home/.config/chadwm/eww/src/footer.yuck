@@ -36,7 +36,6 @@
         :class 'brightness'
         :min 0
         :max 100
-        :value head_vol
         :value brightness
         :onchange "light -S {}%"
         :hexpand true

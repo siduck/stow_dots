@@ -1,3 +1,4 @@
 #!/bin/sh
-# 3-finger swipe left -> bound via ~/.config/libinput-gestures.conf
-# (intentionally empty - fill in your workspace logic here)
+# 3-finger swipe left -> previous workspace
+# chadwm: shiftview -1 is bound to Super+Left (config.def.h)
+xdotool key --clearmodifiers super+Left

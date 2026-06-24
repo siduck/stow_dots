@@ -4,7 +4,7 @@ Xft.hinting: true
 Xft.hintstyle: hintslight
 Xft.rgba: rgb
 Xft.lcdfilter: lcddefault
-Xft.dpi: 110
+! Xft.dpi: 110
 
 st.font:         JetBrainsMono Nerd Font:style:medium:pixelsize=15
 
@@ -14,6 +14,6 @@ st.borderpx: 20
 !- 0.1 to 0.9 = transparency
 st.alpha: 1.0
 
-Xcursor.theme: material_light_cursors
+Xcursor.theme: Volantes_Curor
 
-#include "./.config/themes/xresources/gruvchad"
+#include "./.config/themes/xresources/scaryforest"

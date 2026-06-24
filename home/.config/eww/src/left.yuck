@@ -1,7 +1,7 @@
 (include "src/modules/dock.yuck")
 
 (defwidget distroIcon []  
-  (button :halign "start" :onclick "eww -c ~/.config/chadwm/eww open eww &" :class "distroIcon"  ''))
+  (button :halign "start" :onclick "eww -c ~/.config/chadwm/eww open eww &" :class "distroIcon"  ''))
 
 (defvar active_workspace 1)
 
@@ -13,7 +13,7 @@
         {active_workspace == x ? "󰻂" : ""}))))
     
 (defwidget left []
-  (box :space-evenly false
+  (box :valign "center" :space-evenly false
     (distroIcon)
     (workspaces)
     (taskbar)))

@@ -1,14 +1,13 @@
 #!/bin/sh
 
-xrdb merge ~/.Xresources 
-xbacklight -set 10 &
-feh --bg-fill ~/Pictures/wall/gruv.png &
+set_theme everforest &
+
 xset r rate 200 50 &
 picom &
 
 pipewire & wireplumber & pipewire-pulse & 
 
-dash ~/.config/chadwm/scripts/bar.sh &
+./bar.sh &
 
 libinput-gestures-setup start &
 

@@ -6,7 +6,7 @@
 interval=0
 
 # load colors
-. ~/.config/chadwm/scripts/bar_themes/everforest
+. ./bar_themes/everblush
 
 cpu() {
   cpu_val=$(grep -o "^[^ ]*" /proc/loadavg)

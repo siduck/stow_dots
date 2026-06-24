@@ -24,6 +24,18 @@ set_prompt
 
 export PATH=$PATH:~/.local/bin
 export PATH=$PATH:~/.bun/bin
+
+# No elogind/seatd on this system to set this up automatically.
+# NOTE: sway still won't start without a seat manager (seatd/elogind) -
+# this only fixes the XDG_RUNTIME_DIR error, not the seat-backend one.
+if [ -z "$XDG_RUNTIME_DIR" ]; then
+  export XDG_RUNTIME_DIR=/run/user/$(id -u)
+  [ -d "$XDG_RUNTIME_DIR" ] || { doas mkdir -p "$XDG_RUNTIME_DIR" && doas chown "$(id -u):$(id -g)" "$XDG_RUNTIME_DIR" && chmod 0700 "$XDG_RUNTIME_DIR"; }
+fi
+
+# Skip Nvim's terminal queries (background detection etc.) — this terminal
+# doesn't answer the DSR request, so Nvim waits out the timeout (E1568).
+export NVIM_NOTTYFAST=1
 #alias v=~/.local/share/bob/nightly/nvim-linux64/bin/nvim
 
 alias zz='slock & doas zzz'
@@ -117,7 +129,11 @@ __fzf_complete() {
 bind -m '^R'='^A^K__fzf_history^[^E'
 bind -m '^I'='^A__fzf_complete ^E__FZFEOL__^[^E'
 
-alias apps="echo && pacman -Slq | fzf --multi  --preview-window=right,60%  --preview 'pacman -Si {1}' | xargs -ro doas pacman -S"
+# arch
+# alias apps="echo && pacman -Slq | fzf --multi  --preview-window=right,60%  --preview 'pacman -Si {1}' | xargs -ro doas pacman -S"
+
+# void
+alias apps="echo && xbps-query -Rs '' | awk '{print \$2}' | sed -E 's/-[^-]+\$//' | fzf --multi --preview-window=right,60% --preview 'xbps-query -R {1}' | xargs -ro doas xbps-install"
 
 alias ti='NVIM_APPNAME="ti" nvim'
 alias tiny='NVIM_APPNAME="tiny" nvim'

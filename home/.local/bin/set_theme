@@ -68,11 +68,16 @@ wallfile=""
 
 case "$1" in
 bearded-arc) wallfile="mountain.png" ;;
+everblush) wallfile="hills.png" ;;
 everforest) wallfile="stairs.jpg" ;;
 gruvchad) wallfile="railtrack.jpg" ;;
 onenord) wallfile="snow-mountain.jpg" ;;
 one_light) wallfile="beach.jpg" ;;
 tundra) wallfile="hills.png" ;;
+hiberbee) wallfile="silhoutte.png" ;;
+chocolate) wallfile="berries.jpg" ;;
+scaryforest) wallfile="dronetree.png" ;;
+glyph) wallfile="ibm.png" ;;
 esac
 
 feh --bg-fill "$walldir$wallfile"

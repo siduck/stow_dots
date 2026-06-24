@@ -84,7 +84,7 @@ map({ "n", "v" }, "<RightMouse>", function()
 end, {})
 
 
-map({"n", 't'}, "<A-m>", "<cmd>FloatermToggle <cr>", {})
+map({"n", 't'}, "<A-n>", "<cmd>FloatermToggle <cr>", {})
 
 -- map("n", "<C-t>", function()
 --   -- require("plenary.reload").reload_module "volt"

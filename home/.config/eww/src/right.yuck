@@ -6,7 +6,7 @@
 (defwidget temperature []
    (box :class "cuteIcon tempIcon" :space-evenly false
      (label :text  "")
-     (label :class "txt" :text "${round(EWW_TEMPS.K10TEMP_TCTL, 0)}°C")))
+     (label :class "txt" :text "${round(EWW_TEMPS.K10TEMP_TCTL, 0)}")))
 
 (defwidget battery []
    (box :class "cuteIcon tempIcon" :space-evenly false
@@ -24,7 +24,7 @@
      (label :class "txt" :text "${round(EWW_CPU.avg,0)}%")))          
 
 (defwidget wifi []
- (box :class "wifiIcon" "${EWW_NET.wlan0 == 'null'? '󰤭' : '󰤨'}"))
+ (box :class "wifiIcon" "${EWW_NET.wlp194s0 == 'null'? '󰤭' : '󰤨'}"))
 
 (defpoll pkgupdates :initial "  0" :interval "1000s" "scripts/utils.sh get_pkgupdates")
 
@@ -49,7 +49,7 @@
           :onchange "pactl set-sink-volume @DEFAULT_SINK@ {}%"))))
 
 (defwidget right []
-  (box :halign "end" :space-evenly false :class "right modal"
+  (box :valign "center" :halign "end" :space-evenly false :class "right modal"
     :spacing 9
     (pkgupdate_counter)
     (theme_switcher)

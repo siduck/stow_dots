@@ -4,5 +4,5 @@
   (label :text datetime :class 'txt datetime'))
 
 (defwidget middle []
-  (box :halign "end" :space-evenly false
+  (box :valign "center" :halign "end" :space-evenly false
     (time)))

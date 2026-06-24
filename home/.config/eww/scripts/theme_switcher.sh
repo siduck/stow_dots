@@ -13,10 +13,10 @@ done
 
 themes="${themes%\\n*}"
 
-yaxis=$(( $2 - ((counter + 2) * 35 ) ))
-xaxis=$(( $1 - 6 ))
+yaxis=$(( $2 - ((counter + 1) * 35 ) ))
+xaxis=$(( $1 - 10 ))
 
 # # Use Rofi to display the list of win IDs and select one
-selected_theme=$(echo "$themes" | rofi -config "$ewwconf/rofi/menu.rasi" -dmenu -i -p "  Search " -xoffset "$xaxis" -yoffset "$yaxis" -hover-select -no-fixed-num-lines)
+selected_theme=$(echo "$themes" | rofi -config "$ewwconf/rofi/menu.rasi" -dmenu -i -p "Search " -xoffset "$xaxis" -yoffset "$yaxis" -hover-select -no-fixed-num-lines)
 
 set_theme "$selected_theme"

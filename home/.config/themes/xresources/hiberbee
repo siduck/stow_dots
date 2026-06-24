@@ -1,0 +1,35 @@
+*.foreground:   #fffefd
+*.background:   #121110
+*.cursorColor:  #fffefd
+
+! black
+*.color0:       #221f1e
+*.color8:       #5a504f
+
+! red
+*.color1:       #ee7762
+*.color9:       #ee7762
+
+! green
+*.color2:       #92D923
+*.color10:      #92D923
+
+! yellow
+*.color3:       #ffb900
+*.color11:      #ffb900
+
+! blue
+*.color4:       #409cff
+*.color12:      #409cff
+
+! magenta
+*.color5:       #ff2a7b
+*.color13:      #ff2a7b
+
+! cyan
+*.color6:       #00b7c3
+*.color14:      #00b7c3
+
+! white
+*.color7:       #fffefd
+*.color15:      #fffefd
