@@ -1,4 +1,4 @@
-@import "scaryforest"
+@import "everforest"
 
 configuration {
   location: 1;

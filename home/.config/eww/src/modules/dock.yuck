@@ -18,7 +18,7 @@
        (button
         :class "pinbtn txt"
         :onclick "scripts/utils.sh ${data.id == "null"? "un" : "" }pin_app ${data.name} ${data.icon} ${data.id}"
-          {data.id == "null" ? "Unpin ?": "  Pin App"}))))
+          {data.id == "null" ? "Unpin ?": "  Pin App"}))))
 
 ; tasklist
 (defwidget taskbar []

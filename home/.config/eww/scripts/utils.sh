@@ -171,7 +171,7 @@ pin_app() {
 	fi
 
 	pid=$(xprop -id "$3" | grep -i pid | cut -d'=' -f2 | tr -d ' ')
-	cmd=$(readlink -f "/proc/$pid/exe")
+	cmd=$(readlink -f "/proc/$pid/exe" | sed 's/ (deleted)$//')
 
 	json='{
          "name": "'"$1"'",
