@@ -11,8 +11,4 @@ selected=$(ls "$ewwconf/css/themes/" | sed 's/\.scss$//' | fuzzel --dmenu \
     --x-margin="$fuzzel_xoff" --y-margin="$fuzzel_yoff" \
     --width=30 --lines="$count")
 
-[ -z "$selected" ] && exit
-
-sed -i "s|@import \"./css/themes/.*\";|@import \"./css/themes/$selected.scss\";|" \
-    "$ewwconf/eww.scss"
-eww -c "$ewwconf" reload
+set_theme "$selected" 

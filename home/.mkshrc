@@ -47,6 +47,7 @@ alias ls='eza --icons'
 alias wa='feh --bg-fill'
 
 # sx
+alias hyp='dbus-run-session start-hyprland'
 alias dwm='sx sh ~/.config/chadwm/scripts/run.sh'
 alias op='sx sh /bin/openbox-session'
 alias flu='sx sh ~/.fluxbox/startup'

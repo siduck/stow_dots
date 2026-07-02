@@ -12,7 +12,7 @@ configuration{
     display-drun: " Apps ";
 }
 
-@theme "everforest"
+@theme "scaryforest"
 
 * {
     width: 600;

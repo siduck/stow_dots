@@ -2,7 +2,7 @@
 local M = {}
 
 M.base46 = {
-  theme = "everforest",
+  theme = "scaryforest",
   transparency = false,
   integrations = { "markview", "navic" },
   -- hl_override = {
