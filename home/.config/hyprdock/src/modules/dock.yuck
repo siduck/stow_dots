@@ -1,0 +1,24 @@
+; wlr-apps grouped taskbar with pinning
+(deflisten apps :initial "[]" "scripts/taskbar.sh")
+(defvar clicked_win '')
+
+(defwidget taskicon [data]
+  (box :space-evenly false
+    (button
+      :class "taskicon taskicon_${data.active == true ? "focused" : data.minimized == true ? "minimized" : "unfocused"}${data.count == 0 ? " pinned" : ""}"
+      :onclick      "scripts/utils.sh taskicon_click '${data.app_id}' ${data.id} ${data.active} ${data.minimized} '${data.cmd == "" ? data.app_id : data.cmd}'"
+      :onrightclick "scripts/utils.sh pin_app_toggle '${data.app_id}'"
+      :tooltip      "${data.title}${data.count > 1 ? " (" + data.count + ")" : ""}"
+      (box :space-evenly false :spacing 3
+        (image :icon "${data.icon_name}" :icon-size "dnd")
+        (label :class "win-count txt" :visible {data.count > 1} :text "${data.count > 1 ? data.count : ""}")))
+    (revealer :reveal {clicked_win == data.app_id + "_on"} :transition "slideright"
+      (button
+        :class "pinbtn txt"
+        :onclick "scripts/utils.sh ${data.count == 0 ? "un" : ""}pin_app '${data.app_id}' '${data.cmd == "" ? data.app_id : data.cmd}'"
+        {data.count == 0 ? "Unpin" : "  Pin App"}))))
+
+(defwidget taskbar []
+  (box :halign "end" :class "taskbar" :space-evenly false :spacing 5
+    (for obj in apps
+      (taskicon :data obj))))

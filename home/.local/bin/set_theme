@@ -4,6 +4,23 @@
 
 new_theme=$1
 
+if [ -n "$HYPRLAND_INSTANCE_SIGNATURE" ]; then
+    _foot_apply="${new_theme:-$theme}"
+    _ftheme="$HOME/.config/themes/foot/$_foot_apply"
+    if [ -f "$_ftheme" ]; then
+        _fg=$(grep "^foreground=" "$_ftheme" | cut -d= -f2)
+        _bg=$(grep "^background=" "$_ftheme" | cut -d= -f2)
+        for _pts in /dev/pts/[0-9]*; do
+            printf '\033]10;#%s\007\033]11;#%s\007' "$_fg" "$_bg" > "$_pts" 2>/dev/null
+            _i=0
+            for _c in $(grep -E "^(regular|bright)[0-7]=" "$_ftheme" | cut -d= -f2); do
+                printf '\033]4;%d;#%s\007' "$_i" "$_c" > "$_pts" 2>/dev/null
+                _i=$((_i + 1))
+            done
+        done
+    fi
+fi
+
 if [ -z "$new_theme" ] || { [ "$theme" = "$new_theme" ] && [ -z "$2" ]; }; then
   exit
 fi
@@ -16,45 +33,53 @@ update_theme() {
 
 update_theme ~/.config/eww/eww.scss
 update_theme ~/.config/chadwm/eww/eww.scss
+update_theme /home/siduck/.config/hyprdock/eww.scss
 
 # -------------------------------------- gtk theme  ----------------------------------
 
 update_theme ~/.config/xsettingsd/xsettingsd.conf
-killall -HUP xsettingsd &
+killall -HUP xsettingsd 2>/dev/null &
 update_theme ~/.gtkrc-2.0
 update_theme ~/.config/gtk-3.0/settings.ini
 
 # -------------------------------- st & xresources  ----------------------------------
 
 update_theme ~/.Xresources
-xrdb merge ~/.Xresources
+[ -z "$WAYLAND_DISPLAY" ] && xrdb merge ~/.Xresources
 
-win_ids=$(xprop -root _NET_CLIENT_LIST | cut -d'#' -f2)
+# -------------------------------------- kitty  ----------------------------------
 
-for id in $win_ids; do
-  wm_class=$(xprop -id "$id" WM_CLASS)
-  wm_name=$(xprop -id "$id" WM_NAME)
+update_theme ~/.config/kitty/kitty.conf
+pkill -USR1 kitty 2>/dev/null
 
-  if [ "$wm_class" = 'WM_CLASS(STRING) = "st", "St"' ]; then
+# -------------------------------------- alacritty  ----------------------------------
 
-    pid=$(xprop -id "$id" | grep -i pid | cut -d'=' -f2 | tr -d ' ')
+update_theme ~/.config/alacritty/alacritty.toml
 
-    kill -USR1 "$pid"
-  fi
-done
+# -------------------------------------- foot  ----------------------------------
+
+update_theme ~/.config/foot/foot.ini
+
+if [ -z "$WAYLAND_DISPLAY" ]; then
+  win_ids=$(xprop -root _NET_CLIENT_LIST 2>/dev/null | cut -d'#' -f2)
+  for id in $win_ids; do
+    wm_class=$(xprop -id "$id" WM_CLASS)
+    if [ "$wm_class" = 'WM_CLASS(STRING) = "st", "St"' ]; then
+      pid=$(xprop -id "$id" | grep -i pid | cut -d'=' -f2 | tr -d ' ')
+      kill -USR1 "$pid"
+    fi
+  done
+fi
 
 update_theme ~/.config/nvim/lua/chadrc.lua
 
-# for nvim that's opened
 if [ -e "$XDG_RUNTIME_DIR"/nvim.* ]; then
     for addr in "$XDG_RUNTIME_DIR"/nvim.*; do
         nvim --server "$addr" --remote-send ':lua require("nvchad.utils").reload() <cr>'
     done
+else
+    nvim --headless +'lua require("nvchad.utils").reload()' +qa &
 fi
-
-
-# when no nvim is opened at all
-nvim --headless +'lua require("nvchad.utils").reload()' +qa
 
 # -------------------------------------- rofi  ----------------------------------
 
@@ -80,13 +105,27 @@ scaryforest) wallfile="dronetree.png" ;;
 glyph) wallfile="ibm.png" ;;
 esac
 
-feh --bg-fill "$walldir$wallfile"
+if [ -n "$HYPRLAND_INSTANCE_SIGNATURE" ]; then
+    wm_name="Hyprland"
+else
+    wm_name=$(wmctrl -m 2>/dev/null | awk -F': ' '/Name/ {print $2}')
+    feh --bg-fill "$walldir$wallfile"
+fi
 
 # # -------------------------------------- openbox ----------------------------------
 
-wm_name=$(wmctrl -m | awk -F': ' '/Name/ {print $2}')
-
 case "$wm_name" in
+  Hyprland)
+    update_theme ~/.config/hypr/hyprland.lua
+    "$HOME/.config/hyprdock/scripts/update_fuzzel_theme.sh" "$new_theme" 2>/dev/null &
+    sed -i "s|^wallpaper=.*|wallpaper=${walldir}${wallfile}|" ~/.config/theme
+    killall swaybg 2>/dev/null
+    swaybg -i "$walldir$wallfile" -m fill &
+    _ftheme="$HOME/.config/themes/foot/$new_theme"
+    { printf '[main]\nshell=/home/siduck/.local/bin/foot-session\nfont=JetBrainsMono Nerd Font:size=11.25:style=Medium\npad=20x20 center\n\n[colors-dark]\nalpha=1.0\n'; grep -v '^\[' "$_ftheme"; } > ~/.config/foot/foot.ini
+    pkill -x -USR1 foot 2>/dev/null
+    ;;
+
   Openbox)
     update_theme ~/.config/openbox/rc.xml
     openbox --reconfigure
@@ -112,4 +151,4 @@ esac
 
 update_theme ~/.config/theme
 
-exec mksh
+[ -z "$HYPRLAND_INSTANCE_SIGNATURE" ] && exec mksh

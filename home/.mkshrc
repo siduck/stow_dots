@@ -22,7 +22,7 @@ set_prompt
 
 # Prompt
 
-export PATH=$PATH:~/.local/bin
+export PATH=~/.local/bin:$PATH
 export PATH=$PATH:~/.bun/bin
 
 # No elogind/seatd on this system to set this up automatically.
@@ -150,6 +150,8 @@ alias gc='git commit -m'
 alias gp='git pull'
 alias gs='git push'
 alias gr='git rebase'
+
+alias de="git pull && yarn build && bench build --app press --hard-link"
 
 lu() {
   lutgen apply $1 -p tundra -L0.5 --preserve

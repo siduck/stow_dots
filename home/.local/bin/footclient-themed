@@ -1,0 +1,3 @@
+#!/bin/sh
+. ~/.config/theme
+exec footclient -o "include=$HOME/.config/themes/foot/$theme" "$@"

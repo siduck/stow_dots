@@ -1,0 +1,14 @@
+(include 'src/left.yuck')
+(include 'src/middle.yuck')
+(include 'src/right.yuck')
+
+(defwindow dock
+  :monitor 0
+  :geometry (geometry :x "0%" :y "6px" :width "90%" :anchor "bottom center")
+  :exclusive true
+  :layer "top"
+  :namespace "dock"
+  (centerbox :class "zuup"
+    (left)
+    (middle)
+    (right)))

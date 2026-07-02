@@ -1,0 +1,73 @@
+@import "everforest"
+
+configuration {
+  location: 0;
+  me-select-entry: "MousePrimary";
+  me-accept-entry: "!MousePrimary";
+  font: "SF Pro Text 11";
+}
+
+window {
+    background-color: @bg;
+    width: 300px;
+}
+
+inputbar {
+    children: [prompt,entry];
+    background-color: @bg;
+    border-radius: 5px;
+    padding: 2px;
+}
+
+prompt {
+    background-color: @accent;
+    padding: 6px;
+    text-color: @bg;
+    border-radius: 3px;
+}
+
+entry {
+    padding: 6px;
+    text-color: @fg;
+    background-color: @bg;
+}
+
+
+listview {
+    padding:3px;
+    background-color: @bg;
+    scrollbar: false;
+}
+
+#element  {
+      padding: 5px;
+}
+
+#element.normal.normal {
+    background-color: @bg;
+    text-color:       @fg;
+}
+
+#element.selected.normal {
+    background-color: @bg-2;
+    text-color:       @selectedfg;
+    border-radius: 3px;
+}
+
+#element.selected.urgent {
+    background-color: @selected-urgent-background;
+    text-color:       @selected-urgent-foreground;
+}
+#element.selected.active {
+    background-color: @selected-active-background;
+    text-color:       @selected-active-foreground;
+}
+
+#element.alternate.normal {
+    background-color: @bg;
+    text-color:       @fg;
+}
+#element.alternate.urgent {
+    background-color: @alternate-urgent-background;
+    text-color:       @alternate-urgent-foreground;
+}

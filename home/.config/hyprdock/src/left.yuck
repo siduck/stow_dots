@@ -1,0 +1,20 @@
+(include "src/modules/dock.yuck")
+
+(defwidget distroIcon []
+  (button :halign "start" :onclick "eww -c ~/.config/hyprdock open dock &" :class "distroIcon" ''))
+
+(deflisten active_workspace :initial 0 "scripts/workspace.sh")
+
+(defwidget workspaces []
+  (box :class "workspaces" :spacing 10
+    (for x in '[0,1,2]'
+      (button
+        :onclick "scripts/switch_ws.sh ${x + 1}"
+        :class "${active_workspace == x ? "" : "in"}active_ws"
+        {active_workspace == x ? "󰻂" : ""}))))
+
+(defwidget left []
+  (box :valign "center" :space-evenly false
+    (distroIcon)
+    (workspaces)
+    (taskbar)))

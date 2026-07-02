@@ -6,7 +6,7 @@
 interval=0
 
 # load colors
-. ./bar_themes/everblush
+. ./bar_themes/scaryforest
 
 cpu() {
   cpu_val=$(grep -o "^[^ ]*" /proc/loadavg)

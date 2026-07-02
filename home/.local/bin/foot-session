@@ -1,0 +1,16 @@
+#!/bin/sh
+if [ -f "$HOME/.config/theme" ]; then
+    . "$HOME/.config/theme"
+    _f="$HOME/.config/themes/foot/$theme"
+    if [ -f "$_f" ]; then
+        _fg=$(grep "^foreground=" "$_f" | cut -d= -f2)
+        _bg=$(grep "^background=" "$_f" | cut -d= -f2)
+        printf '\033]10;#%s\007\033]11;#%s\007' "$_fg" "$_bg"
+        _i=0
+        for _c in $(grep -E "^(regular|bright)[0-7]=" "$_f" | cut -d= -f2); do
+            printf '\033]4;%d;#%s\007' "$_i" "$_c"
+            _i=$((_i + 1))
+        done
+    fi
+fi
+exec mksh
