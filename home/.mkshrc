@@ -51,7 +51,6 @@ alias hyp='dbus-run-session start-hyprland'
 alias dwm='sx sh ~/.config/chadwm/scripts/run.sh'
 alias op='sx sh /bin/openbox-session'
 alias flu='sx sh ~/.fluxbox/startup'
-alias ice='sx sh ~/.icewm/startup' 
 
 nv() {
   [ -n "$1" ] && [ -d "$1" ] && cd "$1" && shift

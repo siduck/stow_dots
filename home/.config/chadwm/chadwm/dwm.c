@@ -107,8 +107,7 @@ enum {
   TabSel,
   TabNorm,
   SchemeBtnPrev,
-  SchemeBtnNext,
-  SchemeBtnClose
+  SchemeBtnNext
 }; /* color schemes */
 enum {
   NetSupported,
@@ -437,7 +436,7 @@ struct Monitor {
   int previewshow;
   int ntabs;
   int tab_widths[MAXTABS];
-  int tab_btn_w[3];
+  int tab_btn_w[2];
   const Layout *lt[2];
   Pertag *pertag;
 };
@@ -671,8 +670,8 @@ void buttonpress(XEvent *e) {
 			click = ClkTabBar;
 			arg.ui = i;
 		} else {
-      x = selmon->ww - 2 * m->gappov;
-			for (loop = 2; loop >= 0; loop--) {
+      x = selmon->ww - 2 * m->gappov - horizpadbar;
+			for (loop = 1; loop >= 0; loop--) {
 				x -= selmon->tab_btn_w[loop];
 				if (ev->x > x)
 					break;
@@ -1642,27 +1641,25 @@ void
 drawtab(Monitor *m) {
 	Client *c;
 	int i;
-        char *btn_prev = "";
-	char *btn_next = "";
-	char *btn_close = " ";
+        const char *btn_prev = tabbtn_prev;
+	const char *btn_next = tabbtn_next;
 	int buttons_w = 0;
 	int sorted_label_widths[MAXTABS];
 	int tot_width = 0;
 	int maxsize = bh;
-	int x = 0;
+	int x = horizpadbar;
 	int w = 0;
   int mw = floatbar?m->ww - 2 * m->gappov:m->ww;
-	buttons_w += TEXTW(btn_prev) - lrpad + horizpadtabo;
-	buttons_w += TEXTW(btn_next) - lrpad + horizpadtabo;
-	buttons_w += TEXTW(btn_close) - lrpad + horizpadtabo;
-        tot_width = buttons_w;
+	buttons_w += TEXTW(btn_prev) - lrpad;
+	buttons_w += TEXTW(btn_next) - lrpad;
+        tot_width = buttons_w + 2 * horizpadbar;
 
 	/* Calculates number of labels and their width */
 	m->ntabs = 0;
 	for(c = m->clients; c; c = c->next){
 	  if(!ISVISIBLE(c)) continue;
-          m->tab_widths[m->ntabs] = MIN(TEXTW(c->name) - lrpad + horizpadtabi + horizpadtabo, 250);
-	  tot_width += m->tab_widths[m->ntabs];
+          m->tab_widths[m->ntabs] = MIN(TEXTW(c->name) - lrpad + horizpadtabi + (c->icon ? c->icw + ICONSPACING : 0), 250);
+	  tot_width += m->tab_widths[m->ntabs] + 1;
 	  ++m->ntabs;
 	  if(m->ntabs >= MAXTABS) break;
 	}
@@ -1692,27 +1689,24 @@ drawtab(Monitor *m) {
 	  if(m->tab_widths[i] >  maxsize) m->tab_widths[i] = maxsize;
 	  w = m->tab_widths[i];
 	  drw_setscheme(drw, scheme[(c == m->sel) ? TabSel : TabNorm]);
-          drw_text(drw, x + horizpadtabo / 2, vertpadbar / 2, w - horizpadtabo, th - vertpadbar, horizpadtabi / 2, c->name, 0);
-	  x += w;
+          drw_text(drw, x, vertpadbar / 2, w, th - vertpadbar, horizpadtabi / 2 + (c->icon ? c->icw + ICONSPACING : 0), c->name, 0);
+	  if (c->icon)
+	    drw_pic(drw, x + horizpadtabi / 2, (th - c->ich) / 2, c->icw, c->ich, c->icon);
+	  x += w + 1;
 	  ++i;
 	}
 
-       	w = mw - buttons_w - x;
+       	w = mw - horizpadbar - buttons_w - x;
 	x += w;
 	drw_setscheme(drw, scheme[SchemeBtnPrev]);
-	w = TEXTW(btn_prev) - lrpad + horizpadtabo;
+	w = TEXTW(btn_prev) - lrpad;
 	m->tab_btn_w[0] = w;
-	drw_text(drw, x + horizpadtabo / 2, vertpadbar / 2, w, th - vertpadbar, 0, btn_prev, 0);
+	drw_text(drw, x, vertpadbar / 2, w, th - vertpadbar, 0, btn_prev, 0);
 	x += w;
         drw_setscheme(drw, scheme[SchemeBtnNext]);
-	w = TEXTW(btn_next) - lrpad + horizpadtabo;
+	w = TEXTW(btn_next) - lrpad;
 	m->tab_btn_w[1] = w;
-	drw_text(drw, x + horizpadtabo / 2, vertpadbar / 2, w, th - vertpadbar, 0, btn_next, 0);
-	x += w;
-        drw_setscheme(drw, scheme[SchemeBtnClose]);
-	w = TEXTW(btn_close) - lrpad + horizpadtabo;
-	m->tab_btn_w[2] = w;
-	drw_text(drw, x + horizpadtabo / 2, vertpadbar / 2, w, th - vertpadbar, 0, btn_close, 0);
+	drw_text(drw, x, vertpadbar / 2, w, th - vertpadbar, 0, btn_next, 0);
 	x += w;
 
 	drw_map(drw, m->tabwin, 0, 0, m->ww, th);

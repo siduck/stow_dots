@@ -103,6 +103,7 @@ hiberbee) wallfile="silhoutte.png" ;;
 chocolate) wallfile="berries.jpg" ;;
 scaryforest) wallfile="dronetree.png" ;;
 glyph) wallfile="ibm.png" ;;
+flex-light) wallfile="Tranquility.png" ;;
 esac
 
 if [ -n "$HYPRLAND_INSTANCE_SIGNATURE" ]; then
@@ -124,6 +125,9 @@ case "$wm_name" in
     _ftheme="$HOME/.config/themes/foot/$new_theme"
     { printf '[main]\nshell=/home/siduck/.local/bin/foot-session\nfont=JetBrainsMono Nerd Font:size=11.25:style=Medium\npad=20x20 center\n\n[colors-dark]\nalpha=1.0\n'; grep -v '^\[' "$_ftheme"; } > ~/.config/foot/foot.ini
     pkill -x -USR1 foot 2>/dev/null
+    gsettings set org.gnome.desktop.interface gtk-theme "$new_theme"
+    gsettings set org.gnome.desktop.interface icon-theme 'Papirus-Dark'
+    gsettings set org.gnome.desktop.interface cursor-theme 'volantes_cursors'
     ;;
 
   Openbox)
@@ -138,11 +142,10 @@ case "$wm_name" in
 
   dwm)
     update_theme ~/.config/chadwm/scripts/bar.sh
-    killall bar.sh && ~/.config/chadwm/scripts/bar.sh &
     update_theme ~/.config/chadwm/chadwm/config.def.h
 		rm -rf ~/.config/chadwm/chadwm/config.h
 		cd ~/.config/chadwm/chadwm/ 
-   	doas make install &
+   	doas make install && killall bar.sh && ~/.config/chadwm/scripts/bar.sh &
     ;;
 esac
 

@@ -3,7 +3,7 @@
 *.cursorColor:  #dadada
 
 ! black
-*.color0:       #232a2d
+*.color0:       #2d3437
 *.color8:       #2d3437
 
 ! red

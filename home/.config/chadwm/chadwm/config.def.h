@@ -26,8 +26,10 @@ static const int vertpadbar         = 11;
 static const int vertpadtab         = 35;
 static const int horizpadtabi       = 15;
 static const int horizpadtabo       = 15;
+static const char *tabbtn_prev      = "";
+static const char *tabbtn_next      = "";
 static const int scalepreview       = 4;
-static const int tag_preview        = 0;        /* 1 means enable, 0 is off */
+static const int tag_preview        = 1;        /* 1 means enable, 0 is off */
 static const int colorfultag        = 1;        /* 0 means use SchemeSel for selected non vacant tag */
 static const char *upvol[]   = { "/usr/bin/pactl", "set-sink-volume", "0", "+5%",     NULL };
 static const char *downvol[] = { "/usr/bin/pactl", "set-sink-volume", "0", "-5%",     NULL };
@@ -41,15 +43,15 @@ static const int new_window_attach_on_end = 0; /*  1 means the new window will a
 static const char *fonts[]          = {"Iosevka:style:medium:size=12" ,"JetBrainsMono Nerd Font Mono:style:medium:size=19" };
 
 // theme
-#include "./themes/scaryforest.h"
+#include "./themes/everblush.h"
 
 static const char *colors[][3]      = {
     /*                     fg       bg      border */
     [SchemeNorm]       = { gray3,   black,  gray2 },
     [SchemeSel]        = { gray4,   blue,   gray3  },
     [SchemeTitle]      = { white,   black,  black }, // active window title
-    [TabSel]           = { blue,    gray2,  black },
-    [TabNorm]          = { gray3,   black,  black },
+    [TabSel]           = { white,   gray2,  black },
+    [TabNorm]          = { gray4,   black,  black },
     [SchemeTag]        = { gray3,   black,  black },
     [SchemeTag1]       = { blue,    black,  black },
     [SchemeTag2]       = { red,     black,  black },
@@ -57,9 +59,8 @@ static const char *colors[][3]      = {
     [SchemeTag4]       = { green,   black,  black },
     [SchemeTag5]       = { pink,    black,  black },
     [SchemeLayout]     = { green,   black,  black },
-    [SchemeBtnPrev]    = { green,   black,  black },
-    [SchemeBtnNext]    = { yellow,  black,  black },
-    [SchemeBtnClose]   = { red,     black,  black },
+    [SchemeBtnPrev]    = { gray4,   black,  black },
+    [SchemeBtnNext]    = { gray4,   black,  black },
 };
 
 /* tagging */
@@ -286,5 +287,4 @@ static const Button buttons[] = {
     { ClkTabBar,            0,              Button1,        focuswin,       {0} },
     { ClkTabPrev,           0,              Button1,        movestack,      { .i = -1 } },
     { ClkTabNext,           0,              Button1,        movestack,      { .i = +1 } },
-    { ClkTabClose,          0,              Button1,        killclient,     {0} },
 };

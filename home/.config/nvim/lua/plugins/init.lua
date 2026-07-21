@@ -153,7 +153,6 @@ return {
 
   {
     "nvzone/floaterm",
-    --    dev = true,
     cmd = { "FloatermToggle" },
     opts = { border = true, size = { h = 80, w = 90 } },
   },

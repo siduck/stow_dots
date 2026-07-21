@@ -1,0 +1,913 @@
+@define-color borders #ebe8dd;
+*:selected {
+  color: #2a2929;
+  background-color: #c7c5bb;
+}
+
+@define-color borders #f2efe4;
+window,
+dialog,
+messagedialog {
+  background: #FFFCF0;
+  color: #2a2929;
+}
+
+dialog > box {
+  padding: 10px;
+}
+
+messagedialog box {
+  padding: 5px;
+}
+
+.background {
+  background: #FFFCF0;
+}
+
+headerbar {
+  background: #f2efe4;
+  padding: 6px;
+}
+
+headerbar box.horizontal.right > button.titlebutton:last-child {
+  margin-right: -6px;
+}
+
+headerbar box.horizontal.left > button.titlebutton:first-child {
+  margin-left: -6px;
+}
+
+headerbar button.titlebutton:not(.appmenu) {
+  background: transparent;
+  margin: -6px 0;
+  padding: 15px 10px;
+  border-radius: 0;
+}
+
+headerbar button.titlebutton:not(.appmenu):nth-last-child(-n+2) {
+  margin-left: -6px;
+}
+
+headerbar button.titlebutton:not(.appmenu).minimize {
+  color: #879A39;
+}
+
+headerbar button.titlebutton:not(.appmenu).minimize:hover {
+  background-color: #D14D41;
+}
+
+headerbar button.titlebutton:not(.appmenu).maximize {
+  color: #4385BE;
+}
+
+headerbar button.titlebutton:not(.appmenu).maximize:hover {
+  background-color: #4385BE;
+}
+
+headerbar button.titlebutton:not(.appmenu).close {
+  color: #D14D41;
+}
+
+headerbar button.titlebutton:not(.appmenu).close:hover {
+  background-color: #D14D41;
+}
+
+headerbar button.titlebutton:not(.appmenu):hover {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+headerbar button.titlebutton.appmenu:not(:active):not(:checked) {
+  background: transparent;
+}
+
+entry {
+  transition: all 100ms ease-in-out;
+  background: rgb(24, 31, 33);
+  border: 2px solid transparent;
+  padding: 6px;
+  border-radius: 0;
+}
+
+entry:focus {
+  border-color: #adaba3;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+entry:disabled {
+  opacity: 0.3;
+}
+
+entry image.left {
+  margin-right: 8px;
+}
+
+entry image.right {
+  margin-left: 8px;
+}
+
+entry selection {
+  background: #8B7EC8;
+  color: #ebe8dd;
+}
+
+button {
+  transition: background-color 100ms ease-in;
+  background: rgb(24, 31, 33);
+  padding: 8px;
+}
+
+button:hover:not(:active) {
+  background: rgb(54, 61, 63);
+}
+
+button:disabled {
+  opacity: 0.3;
+}
+
+button:checked, button.suggested-action {
+  background: #3AA99F;
+  color: white;
+}
+
+button:checked:hover:not(:active), button.suggested-action:hover:not(:active) {
+  background: #008080;
+}
+
+button.destructive-action {
+  background: #D14D41;
+  color: white;
+}
+
+button.destructive-action:hover:not(:active) {
+  background: #DA702C;
+}
+
+button.circular {
+  border-radius: 100%;
+  padding: 8px;
+}
+
+button.flat {
+  background: transparent;
+}
+
+button.flat:hover {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+button.flat:checked {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+combobox box entry {
+  border-radius: 0;
+}
+
+combobox button.combo cellview {
+  margin: -2px;
+}
+
+combobox button.combo arrow {
+  margin: -6px -8px;
+  padding: 8px;
+  min-width: 16px;
+  -gtk-icon-source: -gtk-icontheme("pan-down-symbolic");
+}
+
+placessidebar {
+  background: #FFFCF0;
+}
+
+placessidebar list {
+  background: transparent;
+  border-radius: 20px;
+}
+
+placessidebar list row:hover {
+  background: #f2efe4;
+  border-radius: 20px;
+}
+
+placessidebar list row .sidebar-icon {
+  margin: 0 10px;
+}
+
+placessidebar.frame, placessidebar .frame {
+  border: 0;
+}
+
+popover {
+  background: #f2efe4;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
+}
+
+popover box modelbutton {
+  padding: 5px 10px;
+  margin: 0 -10px;
+}
+
+popover box modelbutton:hover {
+  background: #f2efe4;
+}
+
+popover.menu:first-child {
+  border-top-left-radius: 0;
+}
+
+notebook stack:only-child {
+  background: #FFFCF0;
+}
+
+tabs {
+  background: #FFFCF0;
+}
+
+.top > tabs {
+  border-bottom: 2px solid #f2efe4;
+}
+
+.top > tabs tab {
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+}
+
+.right > tabs {
+  border-left: 2px solid #f2efe4;
+}
+
+.right > tabs tab {
+  border-left: 2px solid transparent;
+  margin-left: -2px;
+}
+
+.bottom > tabs {
+  border-top: 2px solid #f2efe4;
+}
+
+.bottom > tabs tab {
+  border-top: 2px solid transparent;
+  margin-top: -2px;
+}
+
+.left > tabs {
+  border-right: 2px solid #f2efe4;
+}
+
+.left > tabs tab {
+  border-right: 2px solid transparent;
+  margin-right: -2px;
+}
+
+tabs tab {
+  padding: 5px;
+  color: #a3a19a;
+  transition: color 200ms ease-in-out, border-color 200ms ease-in-out;
+  text-align: center;
+}
+
+header tabs tab:checked {
+  border-color: #DA702C;
+  color: #2a2929;
+}
+
+header tabs tab:hover:not(:checked) {
+  border-color: rgba(197, 201, 200, 0.2);
+}
+
+header tabs {
+  background: #f2efe4;
+}
+
+dialog header tabs > tab > label {
+  padding: 3px;
+}
+
+treeview {
+  -GtkTreeView-expander-size: 13;
+  -GtkTreeView-grid-line-pattern: "";
+  -GtkTreeView-tree-line-pattern: "";
+  -GtkTreeView-horizontal-separator: 8;
+  -GtkTreeView-vertical-separator: 8;
+  background: #FFFCF0;
+  border-left-color: #FFFCF0;
+  border-top-color: #FFFCF0;
+}
+
+treeview:hover {
+  background: #c7c5bb;
+}
+
+treeview:selected {
+  background: #c7c5bb;
+  color: #2a2929;
+}
+
+treeview.separator {
+  color: #f2efe4;
+  min-height: 2px;
+}
+
+treeview header button {
+  border-bottom: 1px solid #c7c5bb;
+  background: #f2efe4;
+}
+
+treeview header button:hover {
+  background: #c7c5bb;
+}
+
+treeview header button:not(:last-child) {
+  border-right: 1px solid #c7c5bb;
+}
+
+overshoot.top {
+  background-image: -gtk-gradient(radial, center top, 0, center top, 0.6, from(rgba(35, 42, 44, 0.2)), to(rgba(35, 42, 44, 0)));
+  background-size: 100% 60%;
+  background-repeat: no-repeat;
+  background-position: center top;
+}
+
+overshoot.bottom {
+  background-image: -gtk-gradient(radial, center bottom, 0, center bottom, 0.6, from(rgba(35, 42, 44, 0.2)), to(rgba(35, 42, 44, 0)));
+  background-size: 100% 60%;
+  background-repeat: no-repeat;
+  background-position: center bottom;
+}
+
+overshoot.left {
+  background-image: -gtk-gradient(radial, left center, 0, left center, 0.6, from(rgba(35, 42, 44, 0.2)), to(rgba(35, 42, 44, 0)));
+  background-size: 60% 100%;
+  background-repeat: no-repeat;
+  background-position: left center;
+}
+
+overshoot.right {
+  background-image: -gtk-gradient(radial, right center, 0, right center, 0.6, from(rgba(35, 42, 44, 0.2)), to(rgba(35, 42, 44, 0)));
+  background-size: 60% 100%;
+  background-repeat: no-repeat;
+  background-position: right center;
+}
+
+rubberband, .rubberband {
+  background-color: rgba(88, 172, 196, 0.1);
+  border: 1px solid rgba(88, 172, 196, 0.6);
+}
+
+progressbar trough {
+  background: #d6d4ca;
+}
+
+progressbar.horizontal progress {
+  background-image: linear-gradient(to right, #3AA99F, #4385BE);
+}
+
+progressbar.vertical progress {
+  background-image: linear-gradient(to bottom, #3AA99F, #4385BE);
+}
+
+levelbar trough block {
+  padding: 3px;
+  border-radius: 3px;
+}
+
+levelbar trough block.filled {
+  background: #4385BE;
+}
+
+levelbar trough block.empty {
+  background: #c7c5bb;
+}
+
+levelbar.discrete block:not(:first-child) {
+  margin-left: 5px;
+}
+
+scale {
+  padding: 8px 0;
+}
+
+scale contents trough {
+  background: #c7c5bb;
+}
+
+scale contents trough slider {
+  background: #2a2929;
+  padding: 8px;
+  margin: -5px;
+  border-radius: 100%;
+}
+
+scale marks mark {
+  padding-top: 5px;
+}
+
+scale marks mark indicator {
+  color: #c7c5bb;
+  min-height: 8px;
+  min-width: 1px;
+}
+
+scale.horizontal highlight {
+  background-image: linear-gradient(to right, #CE5D97, #3AA99F);
+}
+
+scale.vertical highlight {
+  background-image: linear-gradient(to bottom, #CE5D97, #3AA99F);
+}
+
+scale:disabled {
+  opacity: 0.3;
+}
+
+spinbutton.horizontal entry {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+spinbutton.horizontal button.down {
+  border-radius: 0;
+}
+
+spinbutton.horizontal button.up {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+spinbutton.vertical button.up {
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+spinbutton.vertical entry {
+  border-radius: 0;
+}
+
+spinbutton.vertical button.down {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+textview {
+  transition: background 100ms ease-in-out;
+  padding: 8px;
+}
+
+textview:focus {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+textview:disabled {
+  opacity: 0.3;
+}
+
+.view:hover, iconview:hover, .view:hover:focus, iconview:hover:focus, .view text:hover, iconview text:hover, textview text:hover, iconview text:hover:focus, textview text:hover:focus, flowbox flowboxchild:hover, row:hover, .view:selected, iconview:selected, .view:selected:focus, iconview:selected:focus, .view text:selected, iconview text:selected, textview text:selected, iconview text:selected:focus, textview text:selected:focus, .view text selection:focus, iconview text selection:focus, .view text selection, iconview text selection, textview text selection:focus, textview text selection, flowbox flowboxchild:selected, entry selection, entry selection:focus, row:selected {
+  background-color: #d6d4ca;
+}
+
+toolbar {
+  background: #FFFCF0;
+}
+
+toolbar.osd {
+  background: rgba(35, 42, 44, 0.5);
+  padding: 10px;
+}
+
+frame.app-notification border {
+  background: #f2efe4;
+  border: 0;
+}
+
+frame > border {
+  border: none;
+}
+
+.frame {
+  border: 1px solid #f2efe4;
+}
+
+scrolledwindow viewport.frame {
+  border-style: none;
+}
+
+list {
+  background: #f2efe4;
+}
+
+list row {
+  padding: 6px;
+}
+
+list row:hover {
+  background: #c7c5bb;
+}
+
+checkbutton check {
+  -gtk-icon-source: -gtk-recolor(url("../assets/symbolic/check.symbolic.png"));
+  -gtk-icon-transform: scale(0);
+  color: rgb(189, 195, 194);
+  border: 2px solid rgba(255, 255, 255, 0.05);
+  border-radius: 1px;
+  padding: 1px;
+  min-width: 12px;
+  min-height: 12px;
+  transition: -gtk-icon-transform 200ms;
+}
+
+checkbutton check:hover, checkbutton check:checked {
+  border-color: #CE5D97;
+}
+
+checkbutton check:active, checkbutton check:checked {
+  background: #CE5D97;
+}
+
+checkbutton check:checked {
+  -gtk-icon-transform: scale(1);
+  border-color: #CE5D97;
+}
+
+checkbutton check:checked:active {
+  background: transparent;
+}
+
+checkbutton label {
+  padding-left: 5px;
+}
+
+checkbutton:disabled {
+  opacity: 0.3;
+}
+
+radiobutton radio {
+  -gtk-icon-source: -gtk-recolor(url("../assets/symbolic/radio.symbolic.png"));
+  -gtk-icon-transform: scale(0);
+  color: rgba(255, 255, 255, 0.8);
+  border: 2px solid rgba(255, 255, 255, 0.05);
+  border-radius: 100%;
+  padding: 3px;
+  min-width: 8px;
+  min-height: 8px;
+  transition: -gtk-icon-transform 200ms;
+}
+
+radiobutton radio:hover {
+  border-color: rgb(54, 61, 63);
+}
+
+radiobutton radio:active, radiobutton radio:checked {
+  background: rgb(54, 61, 63);
+}
+
+radiobutton radio:checked {
+  -gtk-icon-transform: scale(1);
+  border-color: #3AA99F;
+}
+
+radiobutton label {
+  padding-left: 5px;
+}
+
+radiobutton:disabled {
+  opacity: 0.38;
+}
+
+switch {
+  background: rgba(197, 201, 200, 0.2);
+  border-radius: 20px;
+  color: transparent;
+  min-width: 40px;
+  border: 5px solid transparent;
+  background-clip: padding-box;
+}
+
+switch slider {
+  background: #94928b;
+  transition: background 100ms ease-in-out;
+  border-radius: 100%;
+  min-width: 5px;
+  min-height: 5px;
+  background-clip: padding-box;
+  margin: -4px -2px;
+}
+
+switch:checked {
+  background: rgba(177, 133, 219, 0.3);
+  background-clip: content-box;
+}
+
+switch:checked slider {
+  background: #8B7EC8;
+}
+
+switch:disabled {
+  opacity: 0.3;
+}
+
+separator {
+  background-image: image(rgba(255, 255, 255, 0.05));
+  background-size: 1px 1px;
+  background-position: center center;
+  min-width: 7px;
+  min-height: 7px;
+  background-repeat: repeat-x;
+  margin: -3px 0;
+}
+
+separator.vertical, .horizontal > separator {
+  background-repeat: repeat-y;
+  margin: 0 -3px;
+}
+
+menubar {
+  background: #ebe8dd;
+  padding: 5px;
+}
+
+menubar menuitem {
+  padding: 5px;
+}
+
+menubar menuitem:hover {
+  background: #ebe8dd;
+}
+
+menu {
+  background: #FFFCF0;
+  padding: 10px;
+}
+
+menu menuitem {
+  padding: 8px;
+}
+
+menu menuitem:hover {
+  background: #4385BE;
+  color: #FFFCF0;
+  border-radius: 0.3em;
+}
+
+scrollbar {
+  -GtkScrollbar-has-backward-stepper: false;
+  -GtkScrollbar-has-forward-stepper: false;
+  background: transparent;
+}
+
+scrollbar slider {
+  padding: 3px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+scrollbar slider:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+scrollbar slider:active {
+  background: rgba(177, 133, 219, 0.75);
+}
+
+scrollbar:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+scrollbar:hover.horizontal slider {
+  padding: 5px 3px;
+}
+
+scrollbar:hover.vertical slider {
+  padding: 3px 5px;
+}
+
+label.dim-label, label:disabled {
+  opacity: 0.3;
+}
+
+calendar {
+  border: 1px solid #d6d4ca;
+  background: #ebe8dd;
+}
+
+calendar.button {
+  background: #d6d4ca;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+calendar.button:hover {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+calendar.button:disabled {
+  color: rgba(255, 255, 255, 0.1);
+}
+
+calendar.header {
+  background: #d6d4ca;
+}
+
+calendar.highlight {
+  color: rgba(255, 255, 255, 0.2);
+}
+
+calendar:selected {
+  color: white;
+  background: #8B7EC8;
+}
+
+calendar:indeterminate {
+  color: rgba(255, 255, 255, 0.1);
+}
+
+actionbar {
+  background: #ebe8dd;
+  border-top: 1px solid #c7c5bb;
+}
+
+iconview {
+  background: #ebe8dd;
+}
+
+iconview:selected {
+  color: #c7c5bb;
+  background: #8B7EC8;
+}
+
+@keyframes rotate {
+  to {
+    -gtk-icon-transform: rotate(1turn);
+  }
+}
+spinner {
+  -gtk-icon-source: none;
+}
+
+spinner:checked {
+  -gtk-icon-source: -gtk-icontheme("process-working-symbolic");
+  animation: rotate 1s linear infinite;
+}
+
+spinner:disabled {
+  opacity: 0.3;
+}
+
+infobar {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+infobar.info {
+  background: #3AA99F;
+}
+
+infobar.warning {
+  background: #D14D41;
+}
+
+infobar.error {
+  background: #D14D41;
+}
+
+infobar.question {
+  background: #c7c5bb;
+}
+
+tooltip {
+  background: #c7c5bb;
+  opacity: 100%;
+}
+
+tooltip label {
+  padding: 2px;
+}
+
+@define-color borders #ebe8dd;
+filechooser viewport,
+filechooser placessidebar,
+filechooser list {
+  background: none;
+}
+
+filechooser placessidebar list row {
+  margin: 5px;
+}
+
+filechooser treeview {
+  background: none;
+}
+
+filechooser treeview header box {
+  padding: 5px;
+}
+
+filechooser treeview:selected {
+  background: #8B7EC8;
+}
+
+.pavucontrol-window {
+  background: #FFFCF0;
+}
+
+.pavucontrol-window tabs {
+  background: #ebe8dd;
+}
+
+.pavucontrol-window tabs tab {
+  padding: 16px;
+}
+
+.pavucontrol-window .show-volume-meters-check-button {
+  padding: 8px;
+}
+
+window.thunar {
+  background: none;
+  /* hide separator */
+}
+
+window.thunar treeview {
+  background: none;
+}
+
+window.thunar grid *:selected,
+window.thunar grid *:active {
+  background: #c7c5bb;
+  border-radius: 3px;
+}
+
+window.thunar .sidebar {
+  background: #FFFCF0;
+  padding: 1rem;
+}
+
+window.thunar treeview {
+  padding: 3px;
+  color: #2a2929;
+}
+
+window.thunar treeview:selected {
+  background: #f2efe4;
+  color: #2a2929;
+  border-radius: 0.5em;
+}
+
+window.thunar .frame {
+  border: 0;
+}
+
+window.thunar toolbar entry {
+  background: #f2efe4;
+  border-radius: 10px;
+  margin: 3px 2em 3px 1em;
+  padding: 0px 1rem;
+}
+
+window.thunar toolbar entry image {
+  background-image: image(rgb(54, 61, 63));
+}
+
+window.thunar paned grid {
+  background: #FFFCF0;
+}
+
+window.thunar toolbar {
+  background: #f2efe4;
+  padding: 5px 0;
+}
+
+window.thunar toolbar * {
+  background: none;
+}
+
+window.thunar separator {
+  background-image: image(#FFFCF0);
+  background-size: 1px 1px;
+  background-position: center center;
+}
+
+.gimp-internal-dock-1 GtkLabel {
+  font-size: 12px;
+}
+
+@define-color borders #c7c5bb;
+window widget {
+  background-color: #FFFCF0;
+}
+
+cursor-handle {
+  background-color: transparent;
+  background-image: none;
+  box-shadow: none;
+  border-style: none;
+}
+
+cursor-handle.top {
+  -gtk-icon-source: -gtk-icontheme("selection-start-symbolic");
+}
+
+cursor-handle.bottom {
+  -gtk-icon-source: -gtk-icontheme("selection-end-symbolic");
+}
+
+/*# sourceMappingURL=gtk.css.map */
+/*# sourceMappingURL=gtk.scss.map */
+/*# sourceMappingURL=gtk.css.map */
+
+/*# sourceMappingURL=gtk.scss.map */

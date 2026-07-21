@@ -7,6 +7,7 @@
                                :y "-0.5%"
                                :width "90%"
                                :anchor "bottom center")
+           :reserve (struts :distance "65px" :side "bottom")
            :windowtype "dock"
            :wm-ignore false
   (centerbox  :class "zuup"

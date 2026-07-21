@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=X-GNOME-Metatheme
+Name=Flex-Light
+Encoding=UTF-8
+
+[X-GNOME-Metatheme]
+GtkTheme=Flex-Light
+MetacityTheme=Flex-Light
+IconTheme=gnome
+CursorTheme=DMZ-Black
+ButtonLayout=menu:minimize,maximize,close

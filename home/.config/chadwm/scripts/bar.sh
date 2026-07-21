@@ -6,7 +6,7 @@
 interval=0
 
 # load colors
-. ./bar_themes/scaryforest
+. ~/.config/chadwm/scripts/bar_themes/everblush
 
 cpu() {
   cpu_val=$(grep -o "^[^ ]*" /proc/loadavg)
@@ -16,8 +16,8 @@ cpu() {
 }
 
 pkg_updates() {
-  #updates=$({ timeout 20 doas xbps-install -un 2>/dev/null || true; } | wc -l) # void
-  updates=$({ timeout 20 checkupdates 2>/dev/null || true; } | wc -l) # arch
+  updates=$({ timeout 20 doas xbps-install -un 2>/dev/null || true; } | wc -l) # void
+  # updates=$({ timeout 20 checkupdates 2>/dev/null || true; } | wc -l) # arch
   # updates=$({ timeout 20 aptitude search '~U' 2>/dev/null || true; } | wc -l)  # apt (ubuntu, debian etc)
 
   if [ -z "$updates" ]; then

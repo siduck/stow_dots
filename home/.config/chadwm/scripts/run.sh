@@ -1,13 +1,16 @@
 #!/bin/sh
 
-set_theme everforest &
+export XDG_CURRENT_DESKTOP=chadwm
+export XDG_SESSION_TYPE=x11
+
+set_theme chocolate startup &
 
 xset r rate 200 50 &
 picom &
 
 pipewire & wireplumber & pipewire-pulse & 
 
-./bar.sh &
+~/.config/chadwm/scripts/bar.sh &
 
 libinput-gestures-setup start &
 

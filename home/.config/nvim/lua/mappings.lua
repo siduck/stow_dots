@@ -92,10 +92,6 @@ map({"n", 't'}, "<A-n>", "<cmd>FloatermToggle <cr>", {})
 --   require("floaterm").open()
 -- end, {})
 
--- vim.keymap.set("n", "<C-t>", function()
---   require("menu").open "default"
--- end, {})
-
 map("n", "<up>", function()
   require("minty.utils").lighten_on_cursor(3)
 end)
@@ -107,7 +103,3 @@ end)
 map("n", "<leader>fg", function()
 	require('telescope').extensions.live_grep_args.live_grep_args()
 end)
-
--- vim.on_key(function (_,key)
---   vim.print(vim.fn.keytrans(key))
--- end)

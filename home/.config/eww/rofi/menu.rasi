@@ -1,4 +1,4 @@
-@import "scaryforest"
+@import "chocolate"
 
 configuration {
   location: 1;

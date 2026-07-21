@@ -2,8 +2,11 @@ if [ -f "$HOME/.profile" ]; then
     . "$HOME/.profile"
 fi
 
+export XDG_CURRENT_DESKTOP=openbox
+export XDG_SESSION_TYPE=x11
+
 #xrandr --output DisplayPort-2 --mode 2560x1440 --rate 74.78 &
-set_theme tundra startup &
+set_theme everblush startup &
 ~/.config/eww/scripts/start.sh  &
 picom &
 xsettingsd &
