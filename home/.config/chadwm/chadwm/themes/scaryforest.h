@@ -1,9 +1,11 @@
 // Scaryforest dark palette
 static const char black[]       = "#121f1d";
 static const char white[]       = "#dde5e0";
+static const char gray1[]       = "#243531";
 static const char gray2[]       = "#1d2b28"; // unfocused window border
 static const char gray3[]       = "#243531";
 static const char gray4[]       = "#3a4d47";
+static const char grey_fg[]     = "#5c7068";
 static const char blue[]        = "#77beb4";  // focused window border
 static const char green[]       = "#83aa7c";
 static const char red[]         = "#9d6d6d";

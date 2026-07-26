@@ -1,9 +1,11 @@
 // Everforest dark palette
 static const char black[]       = "#2b3339";
 static const char white[]       = "#d3c6aa";
+static const char gray1[]       = "#363e44";
 static const char gray2[]       = "#323c41"; // unfocused window border
 static const char gray3[]       = "#465058";
 static const char gray4[]       = "#475057";
+static const char grey_fg[]     = "#656d73";
 static const char blue[]        = "#7393b3";  // focused window border
 static const char green[]       = "#a7c080";
 static const char red[]         = "#e67e80";

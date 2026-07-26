@@ -3,7 +3,7 @@
 (defwidget distroIcon []  
   (button :halign "start" :onclick "eww -c ~/.config/chadwm/eww open eww &" :class "distroIcon"  ''))
 
-(defvar active_workspace 1)
+(deflisten active_workspace :initial "0" "scripts/utils.sh watch_workspace")
 
 (defwidget workspaces []
   (box :class "workspaces" :spacing 10

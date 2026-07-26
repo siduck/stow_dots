@@ -1,9 +1,11 @@
 // Glyph dark palette
 static const char black[]       = "#000000";
 static const char white[]       = "#e8e8e8";
+static const char gray1[]       = "#1a1a1a";
 static const char gray2[]       = "#1a1a1a"; // unfocused window border
 static const char gray3[]       = "#262626";
 static const char gray4[]       = "#2e2e2e";
+static const char grey_fg[]     = "#5c5c5c";
 static const char blue[]        = "#57c7ff";  // focused window border
 static const char green[]       = "#5af78e";
 static const char red[]         = "#ff5c57";

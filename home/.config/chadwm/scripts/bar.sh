@@ -6,7 +6,7 @@
 interval=0
 
 # load colors
-. ~/.config/chadwm/scripts/bar_themes/everblush
+. ~/.config/chadwm/scripts/bar_themes/espresso
 
 cpu() {
   cpu_val=$(grep -o "^[^ ]*" /proc/loadavg)
@@ -29,7 +29,7 @@ pkg_updates() {
 
 battery() {
   val="$(cat /sys/class/power_supply/BAT0/capacity)"
-  printf "^c$black^ ^b$red^ BAT"
+  printf "^c$black^^b$red^ BAT"
   printf "^c$white^ ^b$grey^ $val ^b$black^"
 
 }
@@ -52,8 +52,8 @@ wlan() {
 }
 
 clock() {
-	printf "^c$black^ ^b$darkblue^ 󱑆 "
-	printf "^c$black^^b$blue^ $(date '+%H:%M')  "
+	printf "^c$black^ ^b$white^ 󱑆 "
+	printf "^c$white^^b$grey^ $(date '+%H:%M') "
 }
 
 while true; do

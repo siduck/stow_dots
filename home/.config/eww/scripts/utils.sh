@@ -222,7 +222,15 @@ add_jsonprops() {
 
 set_workspace() {
 	xdotool set_desktop "$1"
-	eww update active_workspace="$1"
+}
+
+# Emits the active tag index whenever dwm changes _NET_CURRENT_DESKTOP. Backs a
+# deflisten, so the indicator follows keybind switches too -- previously it was
+# only set optimistically on click and went stale for any other switch.
+watch_workspace() {
+	xprop -root -spy _NET_CURRENT_DESKTOP | while read -r line; do
+		echo "${line##* }"
+	done
 }
 
 get_pkgupdates() {

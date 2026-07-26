@@ -280,6 +280,8 @@ static void manage(Window w, XWindowAttributes *wa);
 static void mappingnotify(XEvent *e);
 static void maprequest(XEvent *e);
 static void monocle(Monitor *m);
+static void monocleplace(Monitor *m);
+static int borderscheme(Monitor *m);
 static void motionnotify(XEvent *e);
 static void movemouse(const Arg *arg);
 static void moveorplace(const Arg *arg);
@@ -821,6 +823,17 @@ void clientmessage(XEvent *e) {
       resizebarwin(selmon);
       updatesystray();
       setclientstate(c, NormalState);
+    }
+    return;
+  }
+  /* _NET_CURRENT_DESKTOP is sent to the root window, which has no Client, so it
+     has to be handled before the !c bail-out below. This is what lets external
+     bars switch tags (eww, wmctrl -s, xdotool set_desktop); dwm only published
+     this property before, it never accepted requests to change it. */
+  if (cme->window == root && cme->message_type == netatom[NetCurrentDesktop]) {
+    if (cme->data.l[0] >= 0 && cme->data.l[0] < (long)LENGTH(tags)) {
+      const Arg a = {.ui = 1 << cme->data.l[0]};
+      view(&a);
     }
     return;
   }
@@ -1663,6 +1676,7 @@ drawtab(Monitor *m) {
 	  ++m->ntabs;
 	  if(m->ntabs >= MAXTABS) break;
 	}
+	int natwidth = tot_width; /* width the tabs actually need, before any truncation-for-space below */
 
         if(tot_width > mw){ //not enough space to display the labels, they need to be truncated
 	  memcpy(sorted_label_widths, m->tab_widths, sizeof(int) * m->ntabs);
@@ -1677,11 +1691,12 @@ drawtab(Monitor *m) {
 	} else{
           maxsize = mw;
 	}
+	int usedw = MIN(natwidth, mw); /* shrink the tab window to fit its content instead of always using the full bar width */
 	i = 0;
 
 	/* cleans window */
 	drw_setscheme(drw, scheme[TabNorm]);
-	drw_rect(drw, 0, 0, mw, th, 1, 1);
+	drw_rect(drw, 0, 0, usedw, th, 1, 1);
 
 	for(c = m->clients; c; c = c->next){
 	  if(!ISVISIBLE(c)) continue;
@@ -1689,27 +1704,28 @@ drawtab(Monitor *m) {
 	  if(m->tab_widths[i] >  maxsize) m->tab_widths[i] = maxsize;
 	  w = m->tab_widths[i];
 	  drw_setscheme(drw, scheme[(c == m->sel) ? TabSel : TabNorm]);
-          drw_text(drw, x, vertpadbar / 2, w, th - vertpadbar, horizpadtabi / 2 + (c->icon ? c->icw + ICONSPACING : 0), c->name, 0);
+          drw_text(drw, x, vertpadtab / 2, w, th - vertpadtab, horizpadtabi / 2 + (c->icon ? c->icw + ICONSPACING : 0), c->name, 0);
 	  if (c->icon)
 	    drw_pic(drw, x + horizpadtabi / 2, (th - c->ich) / 2, c->icw, c->ich, c->icon);
 	  x += w + 1;
 	  ++i;
 	}
 
-       	w = mw - horizpadbar - buttons_w - x;
+       	w = usedw - horizpadbar - buttons_w - x;
 	x += w;
 	drw_setscheme(drw, scheme[SchemeBtnPrev]);
 	w = TEXTW(btn_prev) - lrpad;
 	m->tab_btn_w[0] = w;
-	drw_text(drw, x, vertpadbar / 2, w, th - vertpadbar, 0, btn_prev, 0);
+	drw_text(drw, x, vertpadtab / 2, w, th - vertpadtab, 0, btn_prev, 0);
 	x += w;
         drw_setscheme(drw, scheme[SchemeBtnNext]);
 	w = TEXTW(btn_next) - lrpad;
 	m->tab_btn_w[1] = w;
-	drw_text(drw, x, vertpadbar / 2, w, th - vertpadbar, 0, btn_next, 0);
+	drw_text(drw, x, vertpadtab / 2, w, th - vertpadtab, 0, btn_next, 0);
 	x += w;
 
-	drw_map(drw, m->tabwin, 0, 0, m->ww, th);
+	XMoveResizeWindow(dpy, m->tabwin, m->wx + (m->ww - usedw) / 2, m->ty, usedw, th);
+	drw_map(drw, m->tabwin, 0, 0, usedw, th);
 }
 
 void enternotify(XEvent *e) {
@@ -1741,6 +1757,12 @@ void expose(XEvent *e) {
   }
 }
 
+/* Monocle shows a single window at a time, so a focus-coloured border carries no
+   information there -- use the neutral one so it matches the tab bar's border. */
+int borderscheme(Monitor *m) {
+  return m->lt[m->sellt]->arrange == monocle ? SchemeNorm : SchemeSel;
+}
+
 void focus(Client *c) {
   if (!c || (!ISVISIBLE(c) || HIDDEN(c)))
     for (c = selmon->stack; c && (!ISVISIBLE(c) || HIDDEN(c)); c = c->snext)
@@ -1755,7 +1777,7 @@ void focus(Client *c) {
     detachstack(c);
     attachstack(c);
     grabbuttons(c, 1);
-    XSetWindowBorder(dpy, c->win, scheme[SchemeSel][ColBorder].pixel);
+    XSetWindowBorder(dpy, c->win, scheme[borderscheme(c->mon)][ColBorder].pixel);
     setfocus(c);
   } else {
     XSetInputFocus(dpy, root, RevertToPointerRoot, CurrentTime);
@@ -2152,9 +2174,34 @@ monocle(Monitor *m)
   if (n > 0) /* override layout symbol */
     snprintf(m->ltsymbol, sizeof m->ltsymbol, "[%d]", n);
 
+  monocleplace(m);
+}
+
+/* Monocle only ever shows one window, so size just that one and park the rest
+   off-screen. Every client used to be resized to full size and left stacked:
+   only the top was visible, but the compositor still drew each one's shadow
+   (shadows fall outside the window, so occlusion can't discard them) and each
+   held a full-screen backing pixmap. Parking is a move rather than an unmap, so no
+   UnmapNotify reaches unmanage(). Hidden clients are also left unresized --
+   they get their geometry when they become selected. */
+void
+monocleplace(Monitor *m)
+{
+  Client *c, *top;
   int newx, newy, neww, newh;
 
+  /* m->sel can be NULL, floating or hidden; fall back so we never park
+     everything and end up showing an empty tag */
+  top = m->sel;
+  if (!top || top->isfloating || !ISVISIBLE(top) || HIDDEN(top))
+    top = nexttiled(m->clients);
+
   for (c = nexttiled(m->clients); c; c = nexttiled(c->next)) {
+    if (c != top) {
+      XMoveWindow(dpy, c->win, WIDTH(c) * -2, c->y);
+      continue;
+    }
+
     newx = m->wx + m->gappov - c->bw;
     newy = m->wy + m->gappoh - c->bw;
     neww = m->ww - 2 * (m->gappov + c->bw);
@@ -2169,6 +2216,9 @@ monocle(Monitor *m)
       newy = m->wy + (m->wh - (newh + 2 * c->bw)) / 2;
 
     resize(c, newx, newy, neww, newh, 0);
+    /* resize() is a no-op when the geometry already matches, and parking does
+       not update c->x/c->y -- so move it back explicitly or it stays off-screen */
+    XMoveWindow(dpy, c->win, c->x, c->y);
   }
 }
 
@@ -2644,6 +2694,13 @@ void restack(Monitor *m) {
   drawtab(m);
   if (!m->sel)
     return;
+  /* the layout can change without any focus event (setlayout), so re-apply the
+     selected window's border here rather than only in focus() */
+  XSetWindowBorder(dpy, m->sel->win, scheme[borderscheme(m)][ColBorder].pixel);
+  /* focus can change without a re-arrange (focusstack), and in monocle the newly
+     selected window is parked off-screen, so it has to be placed again here */
+  if (m->lt[m->sellt]->arrange == monocle)
+    monocleplace(m);
   if (m->sel->isfloating || !m->lt[m->sellt]->arrange)
     XRaiseWindow(dpy, m->sel->win);
   if (m->lt[m->sellt]->arrange) {
@@ -2907,7 +2964,9 @@ void setup(void) {
     die("no fonts could be loaded.");
   lrpad = drw->fonts->h;
   bh = drw->fonts->h + 2 + vertpadbar + borderpx * 2;
-  th = vertpadtab;
+  /* same formula as bh so the tab bar tracks font size and border width too --
+     it used to be a flat constant and drifted out of sync with the status bar */
+  th = drw->fonts->h + 2 + vertpadtab + borderpx * 2;
  // bh_n = vertpadtab;
   updategeom();
   /* init atoms */
@@ -3365,12 +3424,18 @@ void updatebarpos(Monitor *m) {
   if(m->showtab == showtab_always
 	   || ((m->showtab == showtab_auto) && (nvis > 1) && (m->lt[m->sellt]->arrange == monocle))) {
     	  	m->topbar = !toptab;
-                m->wh -= th + ((m->topbar == toptab && m->showbar) ? 0 : m->gappoh) - m->gappoh;
-		m->ty = m->toptab ? m->wy + ((m->topbar && m->showbar) ? 0 : m->gappoh) : m->wy + m->wh - m->gappoh;
-		if ( m->toptab )
-                   m->wy += th + ((m->topbar && m->showbar) ? 0 : m->gappoh) - m->gappoh;
+		/* gaptab on both sides of the tab bar. The window side subtracts
+		   m->gappoh because the layout adds that back on its own -- so the work
+		   area starts inside the gap, and gaptab is what you actually see. */
+		m->wh -= th + 2 * gaptab - m->gappoh;
+		if (m->toptab) {
+			m->ty = m->wy + gaptab;
+			m->wy = m->ty + th + gaptab - m->gappoh;
+		} else {
+			m->ty = m->wy + m->wh + gaptab - m->gappoh;
+		}
 	} else {
-        m->ty = -th - m->gappoh;
+        m->ty = -th - gaptab;
         m->topbar = topbar;
   }
   if (m->showbar) {

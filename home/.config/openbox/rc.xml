@@ -40,7 +40,7 @@
                   'Active' - where the active window is -->
   </placement>
   <theme>
-    <name>espresso</name>
+    <name>everblush</name>
     <titleLayout>NLIMC</titleLayout>
     <!--
       available characters are NDSLIMC, each can occur at most once.
@@ -153,7 +153,7 @@
      cases. -->
   <margins>
     <top>10</top>
-    <bottom>0</bottom>
+    <bottom>63</bottom>
     <left>10</left>
     <right>10</right>
   </margins>
