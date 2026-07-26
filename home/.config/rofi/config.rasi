@@ -12,7 +12,7 @@ configuration{
     display-drun: " Apps ";
 }
 
-@theme "chocolate"
+@theme "espresso"
 
 * {
     width: 600;

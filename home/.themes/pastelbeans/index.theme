@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=X-GNOME-Metatheme
+Name=Pastelbeans
+Encoding=UTF-8
+
+[X-GNOME-Metatheme]
+GtkTheme=Pastelbeans
+MetacityTheme=Pastelbeans
+IconTheme=gnome
+CursorTheme=DMZ-Black
+ButtonLayout=menu:minimize,maximize,close

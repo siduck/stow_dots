@@ -1,0 +1,32 @@
+# Window title
+window.active.title.bg.color: #1c1c1c
+window.inactive.title.bg.color: #1c1c1c
+window.*.label.text.color: #e8e8d3
+window.*.button.*.image.color: #e8e8d3
+
+# Borders
+window.handle.width: 0
+window.client.padding.width: 0
+
+border.width: 0
+
+# Title
+padding.width: 10
+padding.height: 8
+window.*.title.bg: Solid Flat
+window.*.*.bg: Parentrelative
+window.label.text.justify: center
+
+# Window btn colors
+# Inactive
+window.inactive.button.close.unpressed.image.color: #525252
+window.inactive.button.max.unpressed.image.color: #525252
+window.inactive.button.iconify.unpressed.image.color: #525252
+
+# Active
+window.active.button.close.pressed.image.color: #ff9da4
+window.active.button.max.pressed.image.color: #d1f1a9
+window.active.button.iconify.pressed.image.color: #d1f1a9
+window.active.button.max.*.image.color: #d1f1a9
+window.active.button.iconify.*.image.color: #f5d595
+window.active.button.close.*.image.color: #ff9da4

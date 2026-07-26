@@ -2,15 +2,9 @@
 local M = {}
 
 M.base46 = {
-  theme = "chocolate",
+  theme = "espresso",
   transparency = false,
   hl_add = require "hl",
-  -- integrations = { "markview", "navic" },
-  -- hl_override = {
-  --   ["@comment"] = { italic = true },
-  --   Function = { italic = true },
-  --   ["@function.call"] = { italic = true, fg = "red" },
-  -- },
 }
 
 M.ui = {
@@ -27,7 +21,7 @@ M.nvdash = {
 
 M.term = {
   winopts = { scl = "yes" },
-  sizes = { vsp = 0.4 },
+  sizes = { vsp = 0.5 },
 }
 
 return M

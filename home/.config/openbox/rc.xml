@@ -40,7 +40,7 @@
                   'Active' - where the active window is -->
   </placement>
   <theme>
-    <name>everblush</name>
+    <name>espresso</name>
     <titleLayout>NLIMC</titleLayout>
     <!--
       available characters are NDSLIMC, each can occur at most once.
@@ -153,7 +153,7 @@
      cases. -->
   <margins>
     <top>10</top>
-    <bottom>64</bottom>
+    <bottom>0</bottom>
     <left>10</left>
     <right>10</right>
   </margins>
@@ -219,10 +219,10 @@
     </keybind>
     <keybind key="W-S-h">
       <action name="MoveResizeTo">
-        <x>0</x>
-        <y>0</y>
-        <width>1/2</width>
-        <height>1/1</height>
+        <x>10</x>
+        <y>10</y>
+        <width>945</width>
+        <height>1126</height>
       </action>
     </keybind>
     <keybind key="XF86MonBrightnessUp">
@@ -270,28 +270,23 @@
     </keybind>
     <keybind key="W-S-l">
       <action name="MoveResizeTo">
-        <x>-0</x>
-        <y>0</y>
-        <width>1/2</width>
-        <height>1/1</height>
+        <x>965</x>
+        <y>10</y>
+        <width>945</width>
+        <height>1126</height>
       </action>
     </keybind>
     <keybind key="W-S-k">
       <action name="MoveResizeTo">
-        <y>0</y>
-        <width>1/2</width>
-        <height>1/2</height>
+        <y>10</y>
+        <height>558</height>
       </action>
     </keybind>
     <keybind key="W-S-j">
       <action name="MoveResizeTo">
-        <y>-0</y>
-        <width>1/2</width>
-        <height>1/2</height>
+        <y>578</y>
+        <height>558</height>
       </action>
-    </keybind>
-    <keybind key="W-S-h">
-      <action name=""/>
     </keybind>
     <keybind key="C-A-Left">
       <action name="GoToDesktop"/>

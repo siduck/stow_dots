@@ -30,7 +30,10 @@ dist: clean
 	gzip dwm-${VERSION}.tar
 	rm -rf dwm-${VERSION}
 
-install: all
+cleanconfig:
+	rm -f config.h
+
+install: cleanconfig all
 	mkdir -p ${DESTDIR}${PREFIX}/bin
 	cp -f dwm ${DESTDIR}${PREFIX}/bin/chadwm
 	chmod 755 ${DESTDIR}${PREFIX}/bin/chadwm
@@ -42,4 +45,4 @@ uninstall:
 	rm -f ${DESTDIR}${PREFIX}/bin/chadwm\
 		${DESTDIR}${MANPREFIX}/man1/dwm.1
 
-.PHONY: all clean dist install uninstall
+.PHONY: all clean dist install uninstall cleanconfig

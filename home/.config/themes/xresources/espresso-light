@@ -1,0 +1,37 @@
+! Espresso Light Color Theme (frappe-ui light palette)
+
+*.foreground:   #171717
+*.background:   #ffffff
+*.cursorColor:  #0d8ef8
+
+! Black
+*.color0:       #f8f8f8
+*.color8:       #c7c7c7
+
+! Red
+*.color1:       #e03434
+*.color9:       #e03434
+
+! Green
+*.color2:       #268c5c
+*.color10:      #43ac79
+
+! Yellow
+*.color3:       #df9311
+*.color11:      #f4cd80
+
+! Blue
+*.color4:       #0d8ef8
+*.color12:      #077ddf
+
+! Magenta
+*.color5:       #9c45e3
+*.color13:      #7757ee
+
+! Cyan
+*.color6:       #36baad
+*.color14:      #3bbde5
+
+! White
+*.color7:       #525252
+*.color15:      #171717

@@ -1,4 +1,4 @@
---@type NvPluginSpec[]
+--@type NvPluginSpec[]plugi
 return {
 
   --------------------------------------- default plugins -----------------------------------------
@@ -157,9 +157,8 @@ return {
     opts = { border = true, size = { h = 80, w = 90 } },
   },
 
-  -- { "nvchad/ui", dev=true },
+  { "nvchad/ui", dev=true },
   -- { "nvchad/base46", dev = true },
-
   { import = "nvchad.blink.lazyspec" },
 
   {

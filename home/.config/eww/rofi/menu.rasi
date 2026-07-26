@@ -1,7 +1,7 @@
-@import "chocolate"
+@import "espresso"
 
 configuration {
-  location: 1;
+  location: 7;
   me-select-entry: "MousePrimary";
   me-accept-entry: "!MousePrimary";
   font: "SF Pro Text 11";

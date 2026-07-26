@@ -1,0 +1,37 @@
+! Espresso Dark Color Theme (frappe-ui dark palette)
+
+*.foreground:   #f8f8f8
+*.background:   #171717
+*.cursorColor:  #76bef9
+
+! Black
+*.color0:       #1f1f1f
+*.color8:       #424242
+
+! Red
+*.color1:       #ff7575
+*.color9:       #ff7575
+
+! Green
+*.color2:       #7dc5a2
+*.color10:      #9be6c1
+
+! Yellow
+*.color3:       #e9a144
+*.color11:      #f4c25f
+
+! Blue
+*.color4:       #76bef9
+*.color12:      #349bef
+
+! Magenta
+*.color5:       #c993ef
+*.color13:      #baa8f5
+
+! Cyan
+*.color6:       #51decf
+*.color14:      #62cae9
+
+! White
+*.color7:       #d9d9d9
+*.color15:      #f8f8f8

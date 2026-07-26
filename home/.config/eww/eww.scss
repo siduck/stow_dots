@@ -1,4 +1,4 @@
-@import "./css/themes/chocolate.scss";
+@import "./css/themes/espresso.scss";
 
 * {
   all: unset;
@@ -146,7 +146,7 @@
 }
 
 .tempIcon label:nth-child(1) {
-  color: $orange;
+  color: $red;
   background: $bg-3;
   font-size: 1.2rem;
   padding-left: 0.9rem;

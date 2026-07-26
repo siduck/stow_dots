@@ -73,13 +73,13 @@ fi
 
 update_theme ~/.config/nvim/lua/chadrc.lua
 
-if [ -e "$XDG_RUNTIME_DIR"/nvim.* ]; then
-    for addr in "$XDG_RUNTIME_DIR"/nvim.*; do
-        nvim --server "$addr" --remote-send ':lua require("nvchad.utils").reload() <cr>'
-    done
-else
-    nvim --headless +'lua require("nvchad.utils").reload()' +qa &
-fi
+_found_nvim=0
+for addr in "$XDG_RUNTIME_DIR"/nvim.*; do
+    [ -e "$addr" ] || continue
+    _found_nvim=1
+    nvim --server "$addr" --remote-send ':NvThemeReload <cr>'
+done
+[ "$_found_nvim" -eq 0 ] && nvim --headless +'NvThemeReload' +qa &
 
 # -------------------------------------- rofi  ----------------------------------
 
@@ -103,7 +103,13 @@ hiberbee) wallfile="silhoutte.png" ;;
 chocolate) wallfile="berries.jpg" ;;
 scaryforest) wallfile="dronetree.png" ;;
 glyph) wallfile="ibm.png" ;;
+ayu_dark) wallfile="valley.jpg" ;;
+ayu_light) wallfile="white_flowers.jpg" ;;
+pastelbeans) wallfile="ocean.jpg" ;;
+chadracula-evondev) wallfile="pixel.jpg" ;;
 flex-light) wallfile="Tranquility.png" ;;
+espresso) wallfile="autumn.jpg" ;;
+espresso-light) wallfile="coffee-light2.jpg" ;;
 esac
 
 if [ -n "$HYPRLAND_INSTANCE_SIGNATURE" ]; then
@@ -145,7 +151,7 @@ case "$wm_name" in
     update_theme ~/.config/chadwm/chadwm/config.def.h
 		rm -rf ~/.config/chadwm/chadwm/config.h
 		cd ~/.config/chadwm/chadwm/ 
-   	doas make install && killall bar.sh && ~/.config/chadwm/scripts/bar.sh &
+   	doas make install && killall bar.sh 2>/dev/null; ~/.config/chadwm/scripts/bar.sh &
     ;;
 esac
 
