@@ -3,14 +3,17 @@
 (include 'src/right.yuck')
 
 (defwindow dock
+           :monitor 0
            :geometry (geometry :x "0%"
                                :y "-0.5%"
                                :width "90%"
                                :anchor "bottom center")
-           ; :reserve (struts ...) is a no-op under dwm -- it ignores _NET_WM_STRUT_PARTIAL,
-           ; so the space is reserved in dwm's updatebarpos() via extbarheight instead
+           ; openbox honours _NET_WM_STRUT_PARTIAL and its x-range, so the space is
+           ; reserved on eDP only. dwm ignores struts entirely -- there the space
+           ; comes from updatebarpos() via extbarheight instead, so this is a no-op.
+           :reserve (struts :side "bottom" :distance "63px")
            :windowtype "dock"
-           :wm-ignore true
+           :wm-ignore false
   (centerbox  :class "zuup"
     (left)
     (middle)

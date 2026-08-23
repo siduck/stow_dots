@@ -103,3 +103,11 @@ end)
 map("n", "<leader>fg", function()
 	require('telescope').extensions.live_grep_args.live_grep_args()
 end)
+
+map({ "n", "v" }, "<ScrollWheelUp>", function()
+  require("neoscroll").scroll(-10, { move_cursor = false, duration = 60 })
+end)
+
+map({ "n", "v" }, "<ScrollWheelDown>", function()
+  require("neoscroll").scroll(10, { move_cursor = false, duration = 60 })
+end)

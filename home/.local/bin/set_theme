@@ -141,6 +141,11 @@ case "$wm_name" in
     openbox --reconfigure
     ;;
 
+  pekwm)
+    update_theme ~/.pekwm/config
+    pekwm_ctrl -a run Reload 2>/dev/null || pkill -HUP -x pekwm
+    ;;
+
   Fluxbox)
     update_theme ~/.fluxbox/init
     fluxbox-remote restart

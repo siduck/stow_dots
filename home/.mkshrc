@@ -51,6 +51,8 @@ alias hyp='dbus-run-session start-hyprland'
 alias dwm='sx sh ~/.config/chadwm/scripts/run.sh'
 alias op='sx sh /bin/openbox-session'
 alias flu='sx sh ~/.fluxbox/startup'
+alias pek='sx pekwm'
+alias tv='xrandr --output HDMI-A-0 --mode 1920x1080 --right-of eDP --set underscan on --set "underscan vborder" 40 --set "underscan hborder" 40'
 
 nv() {
   [ -n "$1" ] && [ -d "$1" ] && cd "$1" && shift
@@ -135,7 +137,8 @@ bind -m '^I'='^A__fzf_complete ^E__FZFEOL__^[^E'
 # void
 alias apps="echo && xbps-query -Rs '' | awk '{print \$2}' | sed -E 's/-[^-]+\$//' | fzf --multi --preview-window=right,60% --preview 'xbps-query -R {1}' | xargs -ro doas xbps-install"
 
-alias ti='NVIM_APPNAME="ti" nvim'
+alias nv='NVIM_APPNAME="nvchad" nvim'
+
 alias tiny='NVIM_APPNAME="tiny" nvim'
 alias repro='NVIM_APPNAME="repro" nvim'
 alias astro='NVIM_APPNAME="astro" nvim'
@@ -152,6 +155,10 @@ alias gs='git push'
 alias gr='git rebase'
 
 alias de="git pull && yarn build && bench build --app press --hard-link"
+
+
+alias mon="xrandr --output DisplayPort-1 --mode 2560x1600 --rotate normal --left-of eDP --set DPI 120"
+alias vmon="xrandr --output DisplayPort-1 --mode 2560x1600 --rotate left --left-of eDP --set DPI 120"
 
 lu() {
   lutgen apply $1 -p tundra -L0.5 --preserve

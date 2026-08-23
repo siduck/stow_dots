@@ -39,7 +39,7 @@ return {
   },
 
   { "nvzone/menu" },
-  { "nvzone/showkeys",  cmd = "ShowkeysToggle", opts = { position = "bottom-center" } },
+  { "nvzone/showkeys", cmd = "ShowkeysToggle", opts = { position = "bottom-center" } },
   {
     "nvzone/timerly",
     opts = {
@@ -86,7 +86,7 @@ return {
         "typescript",
         "cpp",
         "vue",
-        "astro"
+        "astro",
       },
     },
   },
@@ -157,7 +157,7 @@ return {
     opts = { border = true, size = { h = 80, w = 90 } },
   },
 
-  { "nvchad/ui", dev=true },
+  -- { "nvchad/ui", dev=true },
   -- { "nvchad/base46", dev = true },
   { import = "nvchad.blink.lazyspec" },
 
@@ -196,5 +196,10 @@ return {
         },
       },
     },
+  },
+
+  {
+    "esmuellert/codediff.nvim",
+    cmd = "CodeDiff",
   },
 }

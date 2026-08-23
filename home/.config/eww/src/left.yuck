@@ -7,7 +7,7 @@
 
 (defwidget workspaces []
   (box :class "workspaces" :spacing 10
-   (for x in '[0,1,2]' 
+   (for x in '[0,1,2,3]' 
       (button :onclick "scripts/utils.sh set_workspace ${x}" 
         :class "${active_workspace == x ? "" : "in"}active_ws" 
         {active_workspace == x ? "󰻂" : ""}))))

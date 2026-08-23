@@ -3,14 +3,14 @@ local M = {}
 
 M.base46 = {
   theme = "espresso",
-  transparency = false,
+  -- transparency = true,
   hl_add = require "hl",
 }
 
 M.ui = {
   cmp = { style = "atom" },
   telescope = { style = "bordered" },
-  statusline = { theme = "minimal", separator_style = "round" },
+  -- statusline = { theme = "minimal", separator_style = "round" },
   tabufline = { lazyload = false },
 }
 

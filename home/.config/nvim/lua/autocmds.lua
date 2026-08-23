@@ -35,3 +35,5 @@ autocmd({ "VimEnter", "VimLeave" }, {
     end
   end,
 })
+
+vim.g.neovide_cursor_vfx_mode = "railgun"

@@ -28,7 +28,7 @@
     <center>yes</center>
     <!-- whether to place windows in the center of the free area found or
        the top left corner -->
-    <monitor>Primary</monitor>
+    <monitor>Mouse</monitor>
     <!-- with Smart placement on a multi-monitor system, try to place new windows
        on: 'Any' - any monitor, 'Mouse' - where the mouse is, 'Active' - where
        the active window is, 'Primary' - only on the primary monitor -->
@@ -40,7 +40,7 @@
                   'Active' - where the active window is -->
   </placement>
   <theme>
-    <name>everblush</name>
+    <name>espresso</name>
     <titleLayout>NLIMC</titleLayout>
     <!--
       available characters are NDSLIMC, each can occur at most once.
@@ -153,7 +153,7 @@
      cases. -->
   <margins>
     <top>10</top>
-    <bottom>63</bottom>
+    <bottom>10</bottom>
     <left>10</left>
     <right>10</right>
   </margins>
@@ -219,10 +219,10 @@
     </keybind>
     <keybind key="W-S-h">
       <action name="MoveResizeTo">
-        <x>10</x>
-        <y>10</y>
-        <width>945</width>
-        <height>1126</height>
+        <x>0</x>
+        <y>0</y>
+        <width>199/400</width>
+        <height>1/1</height>
       </action>
     </keybind>
     <keybind key="XF86MonBrightnessUp">
@@ -270,22 +270,24 @@
     </keybind>
     <keybind key="W-S-l">
       <action name="MoveResizeTo">
-        <x>965</x>
-        <y>10</y>
-        <width>945</width>
-        <height>1126</height>
+        <x>-0</x>
+        <y>0</y>
+        <width>199/400</width>
+        <height>1/1</height>
       </action>
     </keybind>
     <keybind key="W-S-k">
       <action name="MoveResizeTo">
-        <y>10</y>
-        <height>558</height>
+        <y>0</y>
+        <width>199/400</width>
+        <height>199/400</height>
       </action>
     </keybind>
     <keybind key="W-S-j">
       <action name="MoveResizeTo">
-        <y>578</y>
-        <height>558</height>
+        <y>-0</y>
+        <width>199/400</width>
+        <height>199/400</height>
       </action>
     </keybind>
     <keybind key="C-A-Left">
@@ -403,6 +405,30 @@
       <action name="Execute">
         <command>pactl set-sink-mute @DEFAULT_SINK@ toggle</command>
       </action>
+    </keybind>
+    <keybind key="W-comma">
+      <action name="Execute">
+        <command>/home/siduck/.config/openbox/focusmon.sh prev</command>
+      </action>
+    </keybind>
+    <keybind key="W-period">
+      <action name="Execute">
+        <command>/home/siduck/.config/openbox/focusmon.sh next</command>
+      </action>
+    </keybind>
+    <keybind key="W-S-comma">
+      <action name="MoveResizeTo">
+        <monitor>prev</monitor>
+      </action>
+      <action name="Focus"/>
+      <action name="Raise"/>
+    </keybind>
+    <keybind key="W-S-period">
+      <action name="MoveResizeTo">
+        <monitor>next</monitor>
+      </action>
+      <action name="Focus"/>
+      <action name="Raise"/>
     </keybind>
   </keyboard>
   <mouse>
