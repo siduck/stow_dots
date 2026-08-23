@@ -7,3 +7,5 @@ home/.config/eww/cache/
 
 # stray Claude Code config
 .claude/
+*.bak
+*.bak-*
