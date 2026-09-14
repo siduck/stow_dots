@@ -7,6 +7,8 @@ Xft.lcdfilter: lcddefault
 ! Xft.dpi: 120
 
 st.font:         JetBrainsMono Nerd Font:style:medium:pixelsize=15
+! st.chscale:      1.11
+! st.font:         CaskaydiaCove Nerd Font:style=Regular:pixelsize=16
 
 ! window padding
 st.borderpx: 20

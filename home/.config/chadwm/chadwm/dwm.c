@@ -890,6 +890,10 @@ void configurenotify(XEvent *e) {
     if (updategeom() || dirty) {
       drw_resize(drw, sw, bh);
       updatebars();
+      /* a monitor attached at runtime has tagwin 0, and cleanupmon destroys it
+       * on detach. without this the next tag switch does XCreatePixmap against
+       * drawable 0 and dies with BadDrawable. */
+      updatepreview();
       for (m = mons; m; m = m->next) {
         for (c = m->clients; c; c = c->next)
           if (c->isfullscreen)
@@ -1850,7 +1854,7 @@ focuswin(const Arg* arg){
 
 Atom getatomprop(Client *c, Atom prop) {
   int di;
-  unsigned long dl;
+  unsigned long dl, nitems;
   unsigned char *p = NULL;
   Atom da, atom = None;
   /* FIXME getatomprop should return the number of items and a pointer to
@@ -1859,11 +1863,15 @@ Atom getatomprop(Client *c, Atom prop) {
   if (prop == xatom[XembedInfo])
     req = xatom[XembedInfo];
 
+  /* nitems must be its own variable: passing &dl twice made bytes_after
+   * clobber it, so any client setting a format-32 property with zero items
+   * got dereferenced as an Atom out of a 1-byte allocation (dwm 6.7). */
   if (XGetWindowProperty(dpy, c->win, prop, 0L, sizeof atom, False, req, &da,
-                         &di, &dl, &dl, &p) == Success &&
+                         &di, &nitems, &dl, &p) == Success &&
       p) {
-    atom = *(Atom *)p;
-    if (da == xatom[XembedInfo] && dl == 2)
+    if (nitems > 0)
+      atom = *(Atom *)p;
+    if (da == xatom[XembedInfo] && nitems == 2)
       atom = ((Atom *)p)[1];
     XFree(p);
   }
@@ -3402,6 +3410,9 @@ updatepreview(void)
 		.event_mask = ButtonPressMask|ExposureMask
 	};
 	for (m = mons; m; m = m->next) {
+		/* idempotent like updatebars, so configurenotify can call it on hotplug */
+		if (m->tagwin)
+			continue;
 		m->tagwin = XCreateWindow(dpy, root, m->wx, m->by + bh, m->mw / 4, m->mh / 4, 0,
 				DefaultDepth(dpy, screen), CopyFromParent, DefaultVisual(dpy, screen),
 				CWOverrideRedirect|CWBackPixmap|CWEventMask, &wa);
@@ -3448,7 +3459,10 @@ void updatebarpos(Monitor *m) {
       m->by = m->topbar ? m->wy : m->wy + m->wh;
     }
     if (m->topbar){
-      m->wy = floatbar?bh+gappoh:bh;
+      /* relative to m->my, not absolute: a head stacked below another has
+         my != 0, and an absolute wy pins its work area to the top of the
+         X screen, drawing that head's clients onto the one above it. */
+      m->wy = m->my + (floatbar?bh+gappoh:bh);
     }
   } else
     m->by = -bh - m->gappoh;

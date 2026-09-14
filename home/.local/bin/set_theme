@@ -142,8 +142,17 @@ case "$wm_name" in
     ;;
 
   pekwm)
-    update_theme ~/.pekwm/config
-    pekwm_ctrl -a run Reload 2>/dev/null || pkill -HUP -x pekwm
+    # pekwm never re-reads Files{Theme} at runtime, so the theme lives at a
+    # fixed path and its contents get swapped instead.
+    cp ~/.pekwm/themes/"$new_theme"/* ~/.pekwm/themes/current/ 2>/dev/null
+    [ -n "$2" ] || pekwm_ctrl -a run Restart
+    ;;
+
+  FVWM)
+    # ~/.fvwm/current is a symlink into ~/.fvwm/themes/<name>/, so a theme
+    # switch is one symlink swap. SIGUSR1 restarts fvwm, which re-reads it.
+    ln -sfn themes/"$new_theme" ~/.fvwm/current
+    [ -n "$2" ] || pkill -USR1 -x fvwm3
     ;;
 
   Fluxbox)

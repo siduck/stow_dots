@@ -7,13 +7,14 @@ set_theme espresso startup &
 
 xset r rate 200 50 &
 picom &
+xsettingsd &
 
 pipewire &
 while [ ! -e "${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/pipewire-0" ]; do sleep 0.1; done
 wireplumber &
 pipewire-pulse &
 
-~/.config/chadwm/scripts/bar.sh &
+while :; do ~/.config/chadwm/scripts/bar.sh; sleep 1; done >>~/.cache/chadwm-bar.log 2>&1 &
 
 libinput-gestures-setup start &
 
