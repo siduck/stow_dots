@@ -40,6 +40,9 @@ process() {
     '
 }
 
+# monitor mode only prints on changes, so emit the current list (and the pins) right away
+process "$(wlr-apps -jq 1)"
+
 wlr-apps -mjq 1 | while IFS= read -r line; do
     process "$line"
 done

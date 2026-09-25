@@ -81,7 +81,11 @@ unpin_app() {
 }
 
 get_pkgupdates() {
-    updates=$(doas xbps-install -un 2>/dev/null | wc -l)
+    if command -v xbps-install >/dev/null; then
+        updates=$(doas xbps-install -un 2>/dev/null | wc -l) # void
+    else
+        updates=$(checkupdates 2>/dev/null | wc -l) # arch
+    fi
     echo "  $updates"
 }
 

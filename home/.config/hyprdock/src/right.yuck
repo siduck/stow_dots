@@ -1,17 +1,20 @@
 (defvar volume_slider true)
 
 (defwidget powerBtn []  
-  (button :onclick "doas zzz" :class "powerBtn"  ''))
+  (button :onclick "command -v zzz >/dev/null && doas zzz || loginctl suspend" :class "powerBtn"  ''))
 
 (defwidget temperature []
    (box :class "cuteIcon tempIcon" :space-evenly false
      (label :text  "")
-     (label :class "txt" :text "${round(EWW_TEMPS.K10TEMP_TCTL, 0)}")))
+     (label :class "txt" :text "${round(EWW_TEMPS?.K10TEMP_TCTL ?: EWW_TEMPS?.CPU0_THERMAL_1_TEMP1 ?: 0, 0)}")))
+
+; EWW_BATTERY only sees BAT* supplies (BAT0 laptop, qcom-battery pad)
+(defpoll battery_level :initial "0" :interval "30s" "~/.config/eww/scripts/utils.sh get_battery")
 
 (defwidget battery []
    (box :class "cuteIcon tempIcon" :space-evenly false
      (label :text  "")
-     (label :class "txt" :text "${round(EWW_BATTERY.total_avg, 0)}%")))
+     (label :class "txt" :text "${battery_level}%")))
 
 (defwidget ram []
  (box :class "cuteIcon ramIcon" :space-evenly false

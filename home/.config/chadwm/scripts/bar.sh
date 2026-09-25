@@ -16,8 +16,11 @@ cpu() {
 }
 
 pkg_updates() {
-  updates=$({ timeout 20 doas xbps-install -un 2>/dev/null || true; } | wc -l) # void
-  # updates=$({ timeout 20 checkupdates 2>/dev/null || true; } | wc -l) # arch
+  if command -v xbps-install >/dev/null; then
+    updates=$({ timeout 20 doas xbps-install -un 2>/dev/null || true; } | wc -l) # void
+  else
+    updates=$({ timeout 20 checkupdates 2>/dev/null || true; } | wc -l) # arch
+  fi
   # updates=$({ timeout 20 aptitude search '~U' 2>/dev/null || true; } | wc -l)  # apt (ubuntu, debian etc)
 
   if [ -z "$updates" ]; then
@@ -28,7 +31,11 @@ pkg_updates() {
 }
 
 battery() {
-  val="$(cat /sys/class/power_supply/BAT0/capacity)"
+  # BAT0 on the laptop, qcom-battery on the pad
+  for bat in /sys/class/power_supply/*; do
+    [ "$(cat "$bat/type")" = Battery ] && break
+  done
+  val="$(cat "$bat/capacity")"
   printf "^c$black^^b$red^ BAT"
   printf "^c$white^ ^b$grey^ $val ^b$black^"
 
@@ -61,5 +68,5 @@ while true; do
   [ $interval = 0 ] || [ $(($interval % 3600)) = 0 ] && updates=$(pkg_updates)
   interval=$((interval + 1))
 
-  sleep 1 && xsetroot -name "$updates $(cpu) $(battery) $(mem) $(wlan) $(clock)"
+  sleep 1 && xsetroot -name "$updates $(cpu) $(battery) $(mem) $(wlan) $(clock)" || exit
 done

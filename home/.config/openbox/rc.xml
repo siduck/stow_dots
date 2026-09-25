@@ -40,7 +40,7 @@
                   'Active' - where the active window is -->
   </placement>
   <theme>
-    <name>everblush</name>
+    <name>everforest</name>
     <titleLayout>NLIMC</titleLayout>
     <!--
       available characters are NDSLIMC, each can occur at most once.
@@ -154,7 +154,7 @@
   <margins>
     <top>10</top>
     <bottom>10</bottom>
-    <left>10</left>
+    <left>11</left>
     <right>10</right>
   </margins>
   <dock>

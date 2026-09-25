@@ -18,4 +18,4 @@ st.alpha: 1.0
 
 Xcursor.theme: Volantes_Curor
 
-#include "./.config/themes/xresources/espresso"
+#include "./.config/themes/xresources/everblush"

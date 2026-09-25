@@ -15,7 +15,11 @@ kernel=$(uname -sr)
 wm="$(xprop -id $(xprop -root -notype | awk '$1=="_NET_SUPPORTING_WM_CHECK:"{print $5}') -notype -f _NET_WM_NAME 8t | grep "WM_NAME" | cut -f2 -d \")"
 mem=$(free -m | sed -n 's/^Mem:\s\+[0-9]\+\s\+\([0-9]\+\)\s.\+/\1/p')
 mem_total=$(free -m | awk '/^Mem:/ {print $2}')
-pkgs="$(xbps-query -l | wc -l)"
+if command -v xbps-query >/dev/null; then
+  pkgs="$(xbps-query -l | wc -l)"
+else
+  pkgs="$(pacman -Qq | wc -l)"
+fi
 shell=$(echo "$SHELL" | awk -F/ '{for ( i=1; i <= NF; i++) sub(".", substr(toupper($i),1,1) , $i); print $NF}')
 colors=$(for i in {0..7}; do echo -en "\e[${1}$((30 + $i))m▁▁▁"; done)
 

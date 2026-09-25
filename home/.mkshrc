@@ -47,9 +47,9 @@ alias ls='eza --icons'
 alias wa='feh --bg-fill'
 
 # sx
-alias hyp='dbus-run-session start-hyprland'
 alias dwm='sx sh ~/.config/chadwm/scripts/run.sh'
 alias op='sx sh /bin/openbox-session'
+alias fv='sx dbus-run-session fvwm3'
 alias flu='sx sh ~/.fluxbox/startup'
 alias pek='sx pekwm'
 alias tv='xrandr --output HDMI-A-0 --mode 1920x1080 --right-of eDP --set underscan on --set "underscan vborder" 40 --set "underscan hborder" 40'
@@ -131,11 +131,13 @@ __fzf_complete() {
 bind -m '^R'='^A^K__fzf_history^[^E'
 bind -m '^I'='^A__fzf_complete ^E__FZFEOL__^[^E'
 
-# arch
-# alias apps="echo && pacman -Slq | fzf --multi  --preview-window=right,60%  --preview 'pacman -Si {1}' | xargs -ro doas pacman -S"
-
-# void
-alias apps="echo && xbps-query -Rs '' | awk '{print \$2}' | sed -E 's/-[^-]+\$//' | fzf --multi --preview-window=right,60% --preview 'xbps-query -R {1}' | xargs -ro doas xbps-install"
+if command -v xbps-query >/dev/null; then
+  # void
+  alias apps="echo && xbps-query -Rs '' | awk '{print \$2}' | sed -E 's/-[^-]+\$//' | fzf --multi --preview-window=right,60% --preview 'xbps-query -R {1}' | xargs -ro doas xbps-install"
+else
+  # arch
+  alias apps="echo && pacman -Slq | fzf --multi  --preview-window=right,60%  --preview 'pacman -Si {1}' | xargs -ro doas pacman -S"
+fi
 
 alias nv='NVIM_APPNAME="nvchad" nvim'
 

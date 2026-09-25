@@ -1,7 +1,10 @@
 (include "src/modules/dock.yuck")
 
+(defpoll distro_icon :interval "24h" :initial "" "scripts/utils.sh distro_icon")
+
+; dashboard sits just above the dock's left end (dock is 90% wide, centred)
 (defwidget distroIcon []  
-  (button :halign "start" :onclick "eww -c ~/.config/chadwm/eww open eww &" :class "distroIcon"  ''))
+  (button :halign "start" :onclick "eww -c ~/.config/chadwm/eww open eww --toggle --anchor 'bottom left' --pos 5%x-6.5% &" :class "distroIcon"  distro_icon))
 
 (deflisten active_workspace :initial "0" "scripts/utils.sh watch_workspace")
 

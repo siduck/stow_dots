@@ -5,10 +5,10 @@
 (defwidget battery[]
    (box  :class 'batterybox'  :orientation  'v' :hexpand true :spacing 10
       (label :class 'batteryactive' :style "border-radius: 1rem"
-         :text "  ${round(EWW_BATTERY.total_avg,0)} %" )
+         :text "  ${battery_level} %" )
 
       (label :class 'batteryactive' :style "border-radius: 1rem"
-         :text "  ${round(EWW_TEMPS.K10TEMP_TCTL, 0)}°C" )
+         :text "  ${round(EWW_TEMPS?.K10TEMP_TCTL ?: EWW_TEMPS?.CPU0_THERMAL_1_TEMP1 ?: 0, 0)}°C" )
      )
   )
 

@@ -1,84 +1,32 @@
 #!/bin/dash
 
 ewwconf="/home/$USER/.config/eww"
+cache="$ewwconf/cache"
 
-. $ewwconf/cache/icons # load icons cache
-
-# Generates array of objects
-# Each object has icon & id property
+# Generates the dock json: pinned apps plus open windows, with icon, id and state
 gen_taskbar() {
+	root=$(xprop -root _NET_CLIENT_LIST _NET_ACTIVE_WINDOW)
+	win_ids=$(echo "$root" | sed -n 's/^_NET_CLIENT_LIST(WINDOW): window id # //p')
+	active=$(echo "$root" | sed -n 's/^_NET_ACTIVE_WINDOW(WINDOW): window id # //p')
 
-	# Get the list of window IDs
-	win_ids=$(xprop -root _NET_CLIENT_LIST | cut -d'#' -f2)
-	echo $win_ids >$ewwconf/cache/win_ids &
-	echo $(xprop -root _NET_ACTIVE_WINDOW | cut -d'#' -f2) >$ewwconf/cache/active_winid &
+	echo "$win_ids" >"$cache/win_ids"
+	echo "$active" >"$cache/active_winid"
+	rm -f "$cache"/multi_win/* "$cache"/multi_winames/*
 
-	str=''                                 # used for checking duplicate wm_classes
-	json=$(cat $ewwconf/cache/pinned_apps) # final str, used by eww!
-	json=${json%?}                         # rm last ]
+	# apps with several windows count as minimized when none of them is on screen
+	onscreen=$(xdotool search --onlyvisible --name . 2>/dev/null | tr '\n' ' ')
 
-	comma=,
-	index=0
-
-	for id in $win_ids; do
-
-		if [ "$json" = "[" ] && [ $index -eq 0 ]; then
-			comma=""
-		else
-			comma=,
-		fi
-
-		wm_class=$(xprop -id "$id" WM_CLASS)
-
-		if [ "${str#*$wm_class}" = "$str" ]; then
-			str="$str $wm_class"
-
-			# used for getting values of icon path vars
-			# wm_class1=$(echo $wm_class | awk -F'"' '{print $1}' | tr ' -.' '_')
-			wm_class2=$(echo $wm_class | cut -d'"' -f4 | xargs "$(dirname "$0")/utils.sh" sanitize_var)
-			gtk_app_id=$(xprop -id "$id" | grep GTK_APPLICATION_ID | cut -d'"' -f2 | xargs "$(dirname "$0")/utils.sh" sanitize_var)
-
-			# store window state & use it for taskicon click action
-			win_state=$("$(dirname "$0")/utils.sh" get_win_state $id)
-
-			# break from loop as soon as we get the icon
-			for class in "$wm_class2" "$gtk_app_id"; do
-				icon=$(eval echo \$$class)
-
-				if [ -n "$icon" ]; then
-					break
-				fi
-			done
-
-			# create stringified json object
-			if [ -n "$icon" ] && [ "$icon" != "$" ]; then
-
-				if [ -z "${json##*\"$wm_class2\"*}" ]; then
-					json=$("$(dirname "$0")/utils.sh" add_jsonprops "$json" $wm_class2 $id $win_state)
-				else
-					json_obj='{
-          "name": "'"$wm_class2"'",
-          "icon": "'"$icon"'",
-          "id": "'"$id"'",
-          "state": "'"$win_state"'"
-          }'
-					json="$json $comma $json_obj"
-				fi
-
-				index=$((index + 1))
-			fi
-		fi
-	done
-
-	# json="${json%?}" # rm last comma
-	json="$json  ]"
+	# one xprop per window, everything else in a single awk pass
+	json=$(
+		for id in $(echo "$win_ids" | tr -d ,); do
+			echo "@ $id"
+			xprop -id "$id" WM_CLASS WM_NAME _NET_WM_STATE _GTK_APPLICATION_ID 2>/dev/null
+		done | awk -v active="$active" -v onscreen="$onscreen" -v cache="$cache" \
+			-v icons="$cache/icons" -v pinned="$cache/pinned_apps" \
+			-f "$ewwconf/scripts/taskbar.awk"
+	)
 
 	eww update apps="$json"
-}
-
-update_taskbar() {
-	gen_taskbar
-	"$(dirname "$0")/utils.sh" cache_multi_wins
 }
 
 # mtimes of the .desktop dirs - changes when an app is installed/removed
@@ -86,26 +34,31 @@ appdirs_state() {
 	stat -c '%Y' /usr/share/applications /usr/local/share/applications "/home/$USER/.local/share/applications" 2>/dev/null
 }
 
-# update dock
-while true; do
-
-	# new/removed .desktop files -> rebuild icon cache, then the taskbar
-	appsstate="$(appdirs_state)"
-	if [ "${appsoldstate}" != "${appsstate}" ]; then
-		"$(dirname "$0")/gen_icons.sh"
-		. $ewwconf/cache/icons
-		update_taskbar
+update_taskbar() {
+	# new/removed .desktop files -> rebuild icon cache first
+	apps=$(appdirs_state)
+	if [ "$apps" != "$(cat "$cache/appdirs_state" 2>/dev/null)" ]; then
+		"$ewwconf/scripts/gen_icons.sh"
+		echo "$apps" >"$cache/appdirs_state"
 	fi
-	appsoldstate="${appsstate}"
 
-	# use xprop to test for changes in window events
-	# update the taskbar only when window state changes occur
-	winstate="$(xprop -root)"
-	test "${oldstate}" = "${winstate}" || update_taskbar
-	oldstate="${winstate}"
+	gen_taskbar
+}
 
-	# to refresh the dock, any part of the scripts could just echo new char to this file
-	refresh_file_val="$(cat $ewwconf/cache/refresh_dock)"
-	test "${refresh_file_oldval}" = "${refresh_file_val}" || update_taskbar
-	refresh_file_oldval="${refresh_file_val}"
+update_taskbar
+
+# like tint2/xfce4-panel: X pushes root property changes, nothing is polled
+xprop -root -spy _NET_CLIENT_LIST _NET_ACTIVE_WINDOW _NET_CURRENT_DESKTOP |
+	while read -r _; do
+		update_taskbar
+	done &
+spy=$!
+
+# pin/unpin (utils.sh) asks for a refresh with USR1
+echo $$ >"$cache/taskbar.pid"
+trap update_taskbar USR1
+
+# wait returns early whenever USR1 runs the trap; stop once X (and so xprop) is gone
+while kill -0 "$spy" 2>/dev/null; do
+	wait "$spy"
 done

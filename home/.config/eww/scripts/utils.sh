@@ -182,6 +182,7 @@ pin_app() {
 	json="$comma $json"
 
 	echo "$pinned_apps $firstchar $json ]" >"$file"
+	kill -USR1 "$(cat "$ewwconf/cache/taskbar.pid")" 2>/dev/null # taskbar.sh refresh
 	eww update clicked_win=""
 }
 
@@ -209,7 +210,7 @@ unpin_app() {
 	' "$file")
 
 	echo -n "$result" >"$file"
-	echo -n x >>"$ewwconf/cache/refresh_dock"
+	kill -USR1 "$(cat "$ewwconf/cache/taskbar.pid")" 2>/dev/null # taskbar.sh refresh
 	eww update clicked_win=""
 }
 
@@ -234,8 +235,11 @@ watch_workspace() {
 }
 
 get_pkgupdates() {
-	# updates=$(checkupdates | wc -l) # arch
-	updates=$(doas xbps-install -un 2>/dev/null | wc -l) # void
+	if command -v xbps-install >/dev/null; then
+		updates=$(doas xbps-install -un 2>/dev/null | wc -l) # void
+	else
+		updates=$(checkupdates 2>/dev/null | wc -l) # arch
+	fi
 	echo "  $updates"
 }
 
@@ -267,6 +271,30 @@ find_icon() {
 	done
 
 	return 1
+}
+
+# EWW_BATTERY only picks up BAT* supplies, so find the battery by type
+# (BAT0 on the laptop, qcom-battery on the pad)
+get_battery() {
+	for bat in /sys/class/power_supply/*; do
+		[ "$(cat "$bat/type")" = Battery ] && cat "$bat/capacity" && return
+	done
+	echo 0
+}
+
+# wlp194s0 on the laptop, wlan0 on the pad
+get_wifi_state() {
+	cat /sys/class/net/wl*/operstate 2>/dev/null | head -1
+}
+
+# nerd font logo for this distro (void on the laptop, artix on the pad)
+distro_icon() {
+	. /etc/os-release
+	case "$ID" in
+	artix) echo "" ;;
+	arch) echo "" ;;
+	*) echo "" ;;
+	esac
 }
 
 run_theme_switcher() {

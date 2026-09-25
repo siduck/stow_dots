@@ -7,6 +7,9 @@ export XDG_SESSION_TYPE=x11
 
 #xrandr --output DisplayPort-2 --mode 2560x1440 --rate 74.78 &
 set_theme everblush startup &
+# fresh eww daemon on this display; one left over from another X session
+# would otherwise keep drawing the dock there
+eww kill 2>/dev/null; eww daemon
 ~/.config/eww/scripts/start.sh  &
 picom &
 xsettingsd &

@@ -14,7 +14,8 @@ while [ ! -e "${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/pipewire-0" ]; do sleep 0.1
 wireplumber &
 pipewire-pulse &
 
-while :; do ~/.config/chadwm/scripts/bar.sh; sleep 1; done >>~/.cache/chadwm-bar.log 2>&1 &
+pkill -f chadwm/scripts/bar.sh
+~/.config/chadwm/scripts/bar.sh 2>~/.cache/chadwm-bar.log &
 
 libinput-gestures-setup start &
 

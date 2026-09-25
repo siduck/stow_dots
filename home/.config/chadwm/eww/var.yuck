@@ -16,6 +16,9 @@
     "scripts/system wifi")
 
 ;fetch 
+(defpoll battery_level :interval "30s" :initial "0" "~/.config/eww/scripts/utils.sh get_battery")
+(defpoll distro_icon :interval "24h" :initial "" "~/.config/eww/scripts/utils.sh distro_icon")
+
 (defpoll os :interval '10000s'
   'scripts/fetch os')
 
